@@ -42,6 +42,16 @@ services:
     volumes:
       - ./frontend/src:/app/src:rw
       - ./frontend/public:/app/public:rw
+      # Config files must be mounted too, otherwise the dev server keeps using
+      # the copies baked into the image at build time (e.g. the Tailwind theme,
+      # fonts in index.html). Without these, src/index.css can reference theme
+      # classes the stale config doesn't know about.
+      - ./frontend/index.html:/app/index.html:rw
+      - ./frontend/tailwind.config.ts:/app/tailwind.config.ts:rw
+      - ./frontend/postcss.config.js:/app/postcss.config.js:rw
+      - ./frontend/vite.config.ts:/app/vite.config.ts:rw
+      - ./frontend/tsconfig.json:/app/tsconfig.json:rw
+      - ./frontend/tsconfig.node.json:/app/tsconfig.node.json:rw
       # avoid overwriting node_modules inside container
       - /app/node_modules
     ports:
