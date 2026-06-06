@@ -68,7 +68,7 @@ class Loan(Base):
         String(30), nullable=False, default="pending_approval", index=True
     )
 
-    # Placeholder TradeFlow Score (real scoring engine is out of MVP scope)
+    # Placeholder OpenLoan Score (real scoring engine is out of MVP scope)
     risk_score: Mapped[int | None] = mapped_column(Integer, nullable=True)
     risk_grade: Mapped[str | None] = mapped_column(String(2), nullable=True)
 

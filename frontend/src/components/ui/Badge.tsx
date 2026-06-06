@@ -51,7 +51,7 @@ export function GradeBadge({
         dims,
       )}
       style={{ backgroundColor: meta.color }}
-      title={`TradeFlow grade ${grade} — ${meta.label}`}
+      title={`OpenLoan grade ${grade} — ${meta.label}`}
     >
       {grade}
     </span>

@@ -1,7 +1,7 @@
 import type { RiskGrade } from "@/lib/api";
 import { gradeColor } from "@/lib/utils";
 
-/** Circular TradeFlow Score gauge (0–100), coloured by grade. */
+/** Circular OpenLoan Score gauge (0–100), coloured by grade. */
 export function ScoreGauge({
   score,
   grade,

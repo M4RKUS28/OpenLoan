@@ -162,7 +162,7 @@ function DetailView({ loan }: { loan: LoanDetailT }) {
 
           {/* Score */}
           <Card
-            title="TradeFlow Score"
+            title="OpenLoan Score"
             action={
               <span className="inline-flex items-center gap-1.5 text-xs text-ink-muted">
                 <Gauge className="h-3.5 w-3.5" /> Grade {loan.score.grade}

@@ -25,7 +25,7 @@ const STEPS = [
   {
     icon: Lock,
     title: "Consent-based sharing",
-    body: "With the business's consent, CDI securely channels their banking and accounting data from source providers to TradeFlow.",
+    body: "With the business's consent, CDI securely channels their banking and accounting data from source providers to OpenLoan.",
   },
   {
     icon: Workflow,
@@ -34,7 +34,7 @@ const STEPS = [
   },
   {
     icon: Gauge,
-    title: "Feeds the TradeFlow Score",
+    title: "Feeds the OpenLoan Score",
     body: "These verified signals — combined with CargoX trade documents — drive an explainable A–E score on every deal.",
   },
 ];
@@ -56,7 +56,7 @@ export function CDIPage() {
             <Database className="h-3.5 w-3.5" /> Powered by HKMA infrastructure
           </span>
           <h1 className="mx-auto mt-6 max-w-2xl font-display text-4xl font-semibold leading-tight tracking-tightish text-balance sm:text-5xl">
-            How CDI powers the TradeFlow Score
+            How CDI powers the OpenLoan Score
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg text-paper/70">
             The Commercial Data Interchange (CDI) is a financial data infrastructure built by the
@@ -101,7 +101,7 @@ export function CDIPage() {
               verified data directly from source providers to financial institutions.
             </p>
             <p className="mt-4 leading-relaxed text-ink-soft">
-              For TradeFlow, that means we can assess a deal's risk from trustworthy, standardised
+              For OpenLoan, that means we can assess a deal's risk from trustworthy, standardised
               data — opening trade finance to SMEs that banks have historically overlooked.
             </p>
           </div>
@@ -121,7 +121,7 @@ export function CDIPage() {
       <section className="border-y border-line bg-paper-grad">
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
           <div className="text-center">
-            <span className="eyebrow text-brand">How TradeFlow uses CDI</span>
+            <span className="eyebrow text-brand">How OpenLoan uses CDI</span>
             <h2 className="mt-3 font-display text-3xl font-semibold tracking-tightish">
               From raw data to a transparent score
             </h2>
@@ -154,7 +154,7 @@ export function CDIPage() {
               CargoX trade documents
             </h3>
             <p className="mt-3 leading-relaxed text-ink-soft">
-              Alongside CDI, TradeFlow ingests logistics and trade-document signals from CargoX —
+              Alongside CDI, OpenLoan ingests logistics and trade-document signals from CargoX —
               electronic Bills of Lading, shipping records and delivery histories — to verify that
               a deal reflects real economic activity.
             </p>
@@ -203,7 +203,7 @@ export function CDIPage() {
             <h2 className="font-display text-2xl font-semibold tracking-tightish">
               See the score on real deals
             </h2>
-            <p className="mt-2 text-ink-soft">Every deal on the marketplace carries a TradeFlow Score.</p>
+            <p className="mt-2 text-ink-soft">Every deal on the marketplace carries a OpenLoan Score.</p>
           </div>
           <Link to="/marketplace" className={cn(buttonVariants({ size: "lg" }), "shrink-0")}>
             Explore the marketplace <ArrowRight className="h-4 w-4" />

@@ -11,7 +11,7 @@ const TOOLS = [
   {
     icon: Wallet,
     name: "get_deal",
-    desc: "Fetch a single deal with its TradeFlow Score breakdown, terms and open offers.",
+    desc: "Fetch a single deal with its OpenLoan Score breakdown, terms and open offers.",
   },
   {
     icon: ShieldCheck,
@@ -27,14 +27,14 @@ const TOOLS = [
 
 const USE_CASES = [
   "An investor's AI assistant scans new deals each morning and flags A/B-grade opportunities.",
-  "A risk analyst asks an agent to compare TradeFlow Scores across an industry.",
+  "A risk analyst asks an agent to compare OpenLoan Scores across an industry.",
   "A business co-pilot drafts a financing request from shipping documents.",
 ];
 
 const CONFIG = `{
   "mcpServers": {
-    "tradeflow": {
-      "url": "https://api.tradeflow.example/mcp",
+    "openloan": {
+      "url": "https://api.openloan.example/mcp",
       "transport": "http",
       "description": "Open marketplace for trade finance"
     }
@@ -50,11 +50,11 @@ export function MCPConnectorPage() {
             <Cable className="h-3.5 w-3.5" /> For developers & AI agents
           </span>
           <h1 className="mx-auto mt-6 max-w-2xl font-display text-4xl font-semibold leading-tight tracking-tightish text-balance sm:text-5xl">
-            The TradeFlow MCP Connector
+            The OpenLoan MCP Connector
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg text-paper/70">
             Connect AI agents directly to the marketplace through the Model Context Protocol — so
-            assistants can search deals, read TradeFlow Scores and analyse portfolios.
+            assistants can search deals, read OpenLoan Scores and analyse portfolios.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a
@@ -86,7 +86,7 @@ export function MCPConnectorPage() {
               call well-defined tools.
             </p>
             <p className="mt-4 leading-relaxed text-ink-soft">
-              TradeFlow exposes its marketplace as an MCP server — turning live trade-finance data
+              OpenLoan exposes its marketplace as an MCP server — turning live trade-finance data
               into capabilities any compatible agent can use, safely and with permission.
             </p>
           </div>

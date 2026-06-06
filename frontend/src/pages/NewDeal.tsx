@@ -116,7 +116,7 @@ export function NewDealPage() {
           <span className="eyebrow text-brand">New financing request</span>
           <h1 className="mt-2 font-display text-4xl font-semibold tracking-tightish">Post a trade deal</h1>
           <p className="mt-3 max-w-xl text-ink-soft">
-            Describe a specific trade deal you need financed. We'll compute a TradeFlow Score and
+            Describe a specific trade deal you need financed. We'll compute a OpenLoan Score and
             open it to investors once you publish.
           </p>
         </div>
@@ -287,7 +287,7 @@ export function NewDealPage() {
             </div>
 
             <div className="mt-5 rounded-lg border border-gold/40 bg-gold-tint px-3 py-2.5 text-xs text-ink-soft">
-              Your TradeFlow Score is computed on submission. The deal starts as
+              Your OpenLoan Score is computed on submission. The deal starts as
               <span className="font-semibold text-ink"> pending approval</span> until you publish it.
             </div>
 

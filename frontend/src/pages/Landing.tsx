@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -51,9 +51,9 @@ type DealLite = {
 function Hero({ deals }: { deals: DealLite[] }) {
   return (
     <section className="relative isolate overflow-hidden text-paper grain-overlay">
-      {/* Victoria Harbour skyline, slowly drifting. */}
+      {/* Victoria Harbour skyline backdrop. */}
       <div
-        className="absolute inset-0 -z-20 bg-cover bg-center animate-ken-burns"
+        className="absolute inset-0 -z-20 bg-cover bg-center"
         style={{ backgroundImage: `url(${media.hongKongNight})` }}
         aria-hidden
       />
@@ -62,7 +62,7 @@ function Hero({ deals }: { deals: DealLite[] }) {
         className="absolute inset-0 -z-10"
         style={{
           background:
-            "linear-gradient(105deg, rgba(4,15,20,0.97) 0%, rgba(6,22,28,0.9) 40%, rgba(8,30,38,0.66) 74%, rgba(10,42,52,0.5) 100%), radial-gradient(80% 70% at 90% 6%, rgba(44,126,140,0.32), transparent 55%), radial-gradient(60% 60% at 100% 100%, rgba(194,54,42,0.20), transparent 60%)",
+            "linear-gradient(105deg, rgba(4,15,20,0.97) 0%, rgba(6,22,28,0.92) 40%, rgba(7,26,33,0.78) 74%, rgba(9,34,42,0.66) 100%), radial-gradient(80% 70% at 90% 6%, rgba(44,126,140,0.30), transparent 55%), radial-gradient(60% 60% at 100% 100%, rgba(194,54,42,0.20), transparent 60%)",
         }}
         aria-hidden
       />
@@ -70,7 +70,7 @@ function Hero({ deals }: { deals: DealLite[] }) {
       <div className="relative mx-auto grid max-w-7xl gap-12 px-4 pb-20 pt-16 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8 lg:pb-28 lg:pt-24">
         <div className="flex flex-col justify-center">
           <span className="eyebrow inline-flex w-fit items-center gap-2 rounded-full border border-paper/15 bg-paper/5 px-3 py-1.5 text-gold-light backdrop-blur-sm animate-fade-in">
-            <span className="h-1.5 w-1.5 rounded-full bg-gold animate-pulse-glow" /> Greater Bay Area · Hong Kong
+            <span className="h-1.5 w-1.5 rounded-full bg-gold" /> Greater Bay Area · Hong Kong
           </span>
           <h1 className="mt-6 max-w-xl font-display text-4xl font-semibold leading-[1.05] tracking-tightish text-balance animate-fade-up sm:text-6xl">
             An open marketplace for{" "}
@@ -78,7 +78,7 @@ function Hero({ deals }: { deals: DealLite[] }) {
           </h1>
           <p className="mt-6 max-w-lg text-lg leading-relaxed text-paper/75 animate-fade-up delay-1">
             Instead of one bank deciding, capital providers compete to fund real trade
-            deals. TradeFlow connects Hong Kong's businesses with investors — deal by deal.
+            deals. OpenLoan connects Hong Kong's businesses with investors — deal by deal.
           </p>
           <div className="mt-9 flex flex-wrap items-center gap-3 animate-fade-up delay-2">
             <Link to="/marketplace" className={cn(buttonVariants({ variant: "light", size: "lg" }))}>
@@ -97,7 +97,7 @@ function Hero({ deals }: { deals: DealLite[] }) {
           <dl className="mt-12 grid max-w-lg grid-cols-3 gap-6 border-t border-paper/10 pt-7 animate-fade-up delay-3">
             {[
               { v: "HK$50K–10M+", l: "Deal sizes" },
-              { v: "A–E", l: "TradeFlow Score" },
+              { v: "A–E", l: "OpenLoan Score" },
               { v: "Open", l: "Auction pricing" },
             ].map((s) => (
               <div key={s.l}>
@@ -108,16 +108,8 @@ function Hero({ deals }: { deals: DealLite[] }) {
           </dl>
         </div>
 
-        {/* 3D scene: rotating globe with the live deal card floating in front. */}
         <div className="relative flex items-center justify-center">
-          <div className="scene-3d relative mx-auto flex min-h-[360px] w-full max-w-md items-center justify-center py-4 animate-fade-in delay-2">
-            <Globe />
-            <div className="absolute -bottom-3 right-0 w-[256px] animate-float-y sm:-right-3 sm:w-[296px]">
-              <div className="tilt-3d">
-                <HeroDealCard deals={deals} />
-              </div>
-            </div>
-          </div>
+          <HeroDealCard deals={deals} />
         </div>
       </div>
 
@@ -126,54 +118,15 @@ function Hero({ deals }: { deals: DealLite[] }) {
   );
 }
 
-/* A CSS-only rotating globe: an equirectangular earth texture scrolls
-   horizontally (two copies, wraps seamlessly) inside a shaded circular mask. */
-function Globe() {
-  return (
-    <div className="relative aspect-square w-[80%] max-w-[360px] sm:w-[88%]">
-      {/* atmosphere */}
-      <div className="absolute inset-[-14%] rounded-full bg-harbor-glow/25 blur-3xl" aria-hidden />
-      {/* orbit rings */}
-      <div className="absolute inset-[-7%] rounded-full border border-paper/10" aria-hidden />
-      <div className="absolute inset-[3%] rounded-full border border-paper/5" aria-hidden />
-      {/* orbiting satellite */}
-      <div className="absolute left-1/2 top-1/2" aria-hidden>
-        <span
-          className="block h-2.5 w-2.5 -ml-[5px] -mt-[5px] rounded-full bg-gold-light shadow-[0_0_16px_4px_rgba(230,205,140,0.65)] animate-orbit"
-          style={{ "--orbit-r": "168px" } as CSSProperties}
-        />
-      </div>
-
-      <div className="globe absolute inset-0 animate-float-y-slow">
-        <div className="globe-map absolute inset-y-0 left-0 flex w-max animate-globe-spin will-change-transform">
-          <img src={media.earthTexture} alt="" aria-hidden draggable={false} className="h-full w-auto max-w-none shrink-0 select-none" />
-          <img src={media.earthTexture} alt="" aria-hidden draggable={false} className="h-full w-auto max-w-none shrink-0 select-none" />
-        </div>
-
-        {/* Hong Kong hub marker (decorative anchor). */}
-        <div className="absolute left-[33%] top-[39%] z-[4] flex items-center gap-2">
-          <span className="relative grid place-items-center">
-            <span className="absolute h-3.5 w-3.5 rounded-full bg-gold-light/60 animate-pulse-glow" />
-            <span className="relative h-2 w-2 rounded-full bg-gold-light ring-2 ring-harbor-950" />
-          </span>
-          <span className="whitespace-nowrap rounded-full border border-paper/15 bg-harbor-950/70 px-2 py-0.5 text-[0.56rem] font-semibold uppercase tracking-widest2 text-gold-light backdrop-blur-sm">
-            Hong Kong
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function HeroDealCard({ deals }: { deals: DealLite[] }) {
   const sample = deals[0];
   return (
-    <div className="relative w-full">
-      <div className="relative rounded-2xl border border-paper/15 bg-harbor-950/55 p-6 shadow-harbor backdrop-blur-xl">
+    <div className="relative w-full max-w-sm animate-scale-in delay-2">
+      <div className="absolute -right-6 -top-6 h-28 w-28 rounded-full bg-brand/30 blur-2xl" />
+      <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-harbor-glow/30 blur-3xl" />
+      <div className="relative rounded-2xl border border-paper/15 bg-harbor-950/45 p-6 shadow-harbor backdrop-blur-xl">
         <div className="flex items-center justify-between">
-          <span className="eyebrow inline-flex items-center gap-1.5 text-paper/55">
-            <span className="h-1.5 w-1.5 rounded-full bg-jade-soft animate-pulse-glow" /> Live deal
-          </span>
+          <span className="eyebrow text-paper/55">Live deal</span>
           <span className="grid h-10 w-10 place-items-center rounded-lg bg-jade font-display text-lg font-semibold text-paper">
             A
           </span>
@@ -276,7 +229,7 @@ function HowItWorks() {
       icon: Building2,
       steps: [
         { t: "Create your company profile", d: "Add your trading business and connect data via HKMA's CDI." },
-        { t: "Publish a trade deal", d: "Describe the goods, amount and term. We compute a TradeFlow Score." },
+        { t: "Publish a trade deal", d: "Describe the goods, amount and term. We compute an OpenLoan Score." },
         { t: "Compare competing offers", d: "Investors bid to fund your deal — you pick the best rate." },
         { t: "Get funded, repay on close", d: "Capital is released; you repay once the trade settles." },
       ],
@@ -285,7 +238,7 @@ function HowItWorks() {
       icon: Wallet,
       steps: [
         { t: "Browse real trade deals", d: "Filter by risk grade, industry, rate and deadline." },
-        { t: "Assess transparent risk", d: "Every deal carries a TradeFlow Score with an explainable breakdown." },
+        { t: "Assess transparent risk", d: "Every deal carries an OpenLoan Score with an explainable breakdown." },
         { t: "Bid your rate", d: "Compete in an open auction to win attractive deals." },
         { t: "Build a portfolio", d: "Track funded deals and returns from your dashboard." },
       ],
@@ -346,7 +299,7 @@ function ScoringSection() {
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-28">
         <div>
           <span className="eyebrow inline-flex items-center gap-2 text-brand">
-            <Gauge className="h-4 w-4" /> The TradeFlow Score
+            <Gauge className="h-4 w-4" /> The OpenLoan Score
           </span>
           <h2 className="mt-3 font-display text-3xl font-semibold tracking-tightish text-balance sm:text-4xl">
             Transparent risk, graded A to E
@@ -367,11 +320,10 @@ function ScoringSection() {
           </p>
         </div>
 
-        {/* Score panel floating in front of a framed photo of Central / IFC. */}
+        {/* Score panel paired with a framed photo of Central / the IFC. */}
         <div className="relative">
           <figure
-            className="absolute -right-4 -top-8 hidden h-[86%] w-[80%] overflow-hidden rounded-2xl border border-line-strong shadow-lift lg:block"
-            style={{ transform: "rotate(2.5deg)" }}
+            className="absolute -right-3 -top-7 hidden h-[84%] w-[78%] overflow-hidden rounded-2xl border border-line-strong shadow-card lg:block"
             aria-hidden
           >
             <img
@@ -380,13 +332,13 @@ function ScoringSection() {
               loading="lazy"
               className="h-full w-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-tr from-harbor-deep/55 via-harbor-deep/10 to-gold/10" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-harbor-deep/55 via-harbor-deep/10 to-transparent" />
             <figcaption className="absolute bottom-3 left-3 rounded-full border border-paper/20 bg-harbor-950/70 px-2.5 py-1 text-[0.6rem] font-semibold uppercase tracking-widest2 text-paper backdrop-blur-sm">
               Central · Hong Kong
             </figcaption>
           </figure>
 
-          <div className="card-surface relative overflow-hidden p-7 lg:mt-10">
+          <div className="card-surface relative overflow-hidden p-7 lg:mt-12">
             <div className="flex items-center justify-between border-b border-line pb-5">
               <div>
                 <p className="eyebrow text-ink-muted">Sample assessment</p>
@@ -525,7 +477,7 @@ function TradeBand() {
             Finance that moves with real trade
           </h2>
           <p className="mt-4 max-w-xl text-paper/75">
-            From Kwai Tsing's container terminals to the Pearl River Delta, TradeFlow links
+            From Kwai Tsing's container terminals to the Pearl River Delta, OpenLoan links
             the region's importers and exporters with the capital that keeps goods moving —
             one verified deal at a time.
           </p>
@@ -547,12 +499,12 @@ function TradeBand() {
 
 const FAQS = [
   {
-    q: "Who can raise capital on TradeFlow?",
+    q: "Who can raise capital on OpenLoan?",
     a: "Any legitimate trading business — importers, exporters, wholesalers, distributors and e-commerce merchants. The platform is designed especially for small and medium enterprises that struggle to access traditional trade finance.",
   },
   {
     q: "Who can invest?",
-    a: "Banks, private credit funds, family offices, institutional investors and qualified individuals. TradeFlow opens an asset class that has historically been reserved for institutions.",
+    a: "Banks, private credit funds, family offices, institutional investors and qualified individuals. OpenLoan opens an asset class that has historically been reserved for institutions.",
   },
   {
     q: "What exactly gets financed?",
@@ -560,7 +512,7 @@ const FAQS = [
   },
   {
     q: "How is risk assessed?",
-    a: "Each deal receives a TradeFlow Score (A–E) built from company data, trade activity, repayment history and document verification — drawing on HKMA's CDI and CargoX. The score is transparent and explainable.",
+    a: "Each deal receives an OpenLoan Score (A–E) built from company data, trade activity, repayment history and document verification — drawing on HKMA's CDI and CargoX. The score is transparent and explainable.",
   },
   {
     q: "Is this a live financial product?",

@@ -10,7 +10,7 @@ interface AccountModeValue {
   isLender: boolean;
 }
 
-const STORAGE_KEY = "tradeflow.mode";
+const STORAGE_KEY = "openloan.mode";
 
 const AccountModeContext = createContext<AccountModeValue | null>(null);
 

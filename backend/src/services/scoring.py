@@ -1,4 +1,4 @@
-"""Placeholder TradeFlow Score.
+"""Placeholder OpenLoan Score.
 
 This is intentionally a *demonstration* model — the real scoring engine (which
 would draw on CDI banking/accounting data, CargoX trade documents, repayment

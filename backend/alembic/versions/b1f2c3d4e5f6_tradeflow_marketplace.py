@@ -1,4 +1,4 @@
-"""tradeflow marketplace: companies, loans, bids + loan-linked files
+"""openloan marketplace: companies, loans, bids + loan-linked files
 
 Revision ID: b1f2c3d4e5f6
 Revises: dc0e0ed8d1b9

@@ -94,54 +94,6 @@
       after:bg-current after:transition-all after:duration-300 hover:after:w-full;
   }
 
-  /* ── 3D rotating globe ──────────────────────────────────────────────────
-     A CSS-only globe: an equirectangular earth texture scrolls horizontally
-     inside a circular mask, with spherical shading + atmosphere baked on. */
-  .globe {
-    @apply relative overflow-hidden rounded-full;
-    isolation: isolate;
-    box-shadow:
-      inset -26px -30px 70px 6px rgba(2,10,14,0.9),
-      inset 18px 14px 44px rgba(255,255,255,0.10),
-      0 0 0 1px rgba(120,200,210,0.16),
-      0 36px 90px -28px rgba(3,16,22,0.85),
-      0 0 90px rgba(44,126,140,0.40);
-  }
-  /* The scrolling earth strip (two image copies) lives inside .globe. */
-  .globe-map {
-    filter: saturate(1.05) brightness(0.9) contrast(1.05);
-  }
-  /* Spherical shading: warm highlight top-left, terminator shadow bottom-right. */
-  .globe::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    border-radius: 50%;
-    pointer-events: none;
-    background:
-      radial-gradient(circle at 32% 28%, rgba(255,255,255,0.30), rgba(255,255,255,0) 40%),
-      radial-gradient(circle at 50% 50%, rgba(44,126,140,0.16), rgba(44,126,140,0) 60%),
-      radial-gradient(circle at 72% 76%, rgba(2,11,15,0.72), rgba(2,11,15,0) 58%);
-  }
-  /* Soft atmospheric rim light. */
-  .globe::after {
-    content: "";
-    position: absolute;
-    inset: -2px;
-    z-index: 3;
-    border-radius: 50%;
-    pointer-events: none;
-    box-shadow: inset 0 0 26px 2px rgba(150,220,230,0.28);
-  }
-
-  /* ── 3D coin ────────────────────────────────────────────────────────────
-     A flippable disc that spins on its Y axis to read as a 3D token. */
-  .coin-3d {
-    transform-style: preserve-3d;
-    backface-visibility: visible;
-  }
-
   /* ── Full-bleed photo band ──────────────────────────────────────────────
      A photographic backdrop with a harbour-tinted overlay for legibility. */
   .photo-band {
@@ -190,36 +142,10 @@
     mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   }
 
-  /* 3D perspective scene + a card that tilts in depth and straightens on hover. */
-  .scene-3d {
-    perspective: 1400px;
-    perspective-origin: 60% 40%;
-  }
-  .tilt-3d {
-    transform: perspective(1500px) rotateY(-14deg) rotateX(7deg);
-    transform-style: preserve-3d;
-    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: transform;
-  }
-  .scene-3d:hover .tilt-3d {
-    transform: perspective(1500px) rotateY(-5deg) rotateX(2deg);
-  }
-  /* Pushes a layer toward/away from the viewer inside a preserve-3d parent. */
-  .depth-near { transform: translateZ(60px); }
-  .depth-far { transform: translateZ(-40px); }
-
-  /* Respect users who prefer less motion: kill the looping/transform animations. */
+  /* Respect users who prefer less motion. */
   @media (prefers-reduced-motion: reduce) {
-    .animate-globe-spin,
-    .animate-float-y,
-    .animate-float-y-slow,
-    .animate-orbit,
-    .animate-coin-spin,
-    .animate-ken-burns,
-    .animate-pulse-glow,
     .animate-ticker {
       animation: none !important;
     }
-    .tilt-3d { transform: none !important; }
   }
 }

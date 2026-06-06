@@ -62,7 +62,7 @@ async def create_loan_request(db: AsyncSession, user_id: str, data: dict) -> Loa
         status="pending_approval",
     )
 
-    # Compute the placeholder TradeFlow Score at submission time.
+    # Compute the placeholder OpenLoan Score at submission time.
     result = _score_for_loan(loan, documents=0)
     await update_loan(db, loan, risk_score=result.score, risk_grade=result.grade)
     return loan

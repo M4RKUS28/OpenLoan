@@ -15,7 +15,7 @@ const COLUMNS = [
     title: "Platform",
     links: [
       { label: "Scoring & CDI", to: "/cdi" },
-      { label: "About TradeFlow", to: "/about" },
+      { label: "About OpenLoan", to: "/about" },
       { label: "MCP Connector", to: "/mcp" },
     ],
   },
@@ -85,9 +85,9 @@ export function Footer() {
         </div>
 
         <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-paper/10 pt-6 text-xs text-paper/45 sm:flex-row sm:items-center">
-          <p>© {new Date().getFullYear()} TradeFlow. Built for the Hong Kong FinTech Hackathon.</p>
+          <p>© {new Date().getFullYear()} OpenLoan. Built for the Hong Kong FinTech Hackathon.</p>
           <p className="max-w-md sm:text-right">
-            Demo environment — not a regulated financial product. Figures and the TradeFlow Score
+            Demo environment — not a regulated financial product. Figures and the OpenLoan Score
             are illustrative.
           </p>
         </div>

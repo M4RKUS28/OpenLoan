@@ -29,7 +29,7 @@ const TEAM = [
 ];
 
 const ROADMAP = [
-  { phase: "Now", title: "Hackathon MVP", body: "Marketplace, deal creation, TradeFlow Score and an auction for bids.", done: true },
+  { phase: "Now", title: "Hackathon MVP", body: "Marketplace, deal creation, OpenLoan Score and an auction for bids.", done: true },
   { phase: "Next", title: "Live CDI & CargoX integration", body: "Real consent-based data feeds powering the scoring engine." },
   { phase: "Then", title: "Settlement & repayment rails", body: "End-to-end financing flow with payments and automated repayment." },
   { phase: "Later", title: "Scale beyond Hong Kong", body: "Expand across the Greater Bay Area and into new trade corridors." },
@@ -41,7 +41,7 @@ export function AboutPage() {
       <section className="relative overflow-hidden bg-harbor-deep text-paper grain-overlay">
         <div className="relative mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 lg:py-28">
           <span className="eyebrow inline-flex items-center gap-2 rounded-full border border-paper/15 bg-paper/5 px-3 py-1.5 text-gold-light">
-            <Flag className="h-3.5 w-3.5" /> About TradeFlow
+            <Flag className="h-3.5 w-3.5" /> About OpenLoan
           </span>
           <h1 className="mx-auto mt-6 max-w-2xl font-display text-4xl font-semibold leading-tight tracking-tightish text-balance sm:text-5xl">
             A world where every trade deal can be financed
@@ -89,7 +89,7 @@ export function AboutPage() {
             </h2>
             <p className="mt-5 leading-relaxed text-ink-soft">
               Meanwhile, investors hunt for attractive, short-duration credit but rarely access
-              individual trade deals. TradeFlow connects both sides — banks, funds, family offices
+              individual trade deals. OpenLoan connects both sides — banks, funds, family offices
               and qualified individuals — around real, scored deals.
             </p>
           </div>

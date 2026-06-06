@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
-/** TradeFlow wordmark. `tone` switches text colour for dark backgrounds. */
+/** OpenLoan wordmark. `tone` switches text colour for dark backgrounds. */
 export function Logo({
   tone = "ink",
   className,
@@ -35,7 +35,7 @@ export function Logo({
             tone === "paper" ? "text-paper" : "text-ink",
           )}
         >
-          Trade<span className="text-brand">Flow</span>
+          Open<span className="text-brand">Loan</span>
         </span>
         <span
           className={cn(
