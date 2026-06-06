@@ -9,6 +9,7 @@ from jose import ExpiredSignatureError, JWTError, jwt
 from src.config.settings import settings
 
 bearer_scheme = HTTPBearer()
+optional_bearer_scheme = HTTPBearer(auto_error=False)
 
 
 @lru_cache(maxsize=1)
@@ -54,6 +55,24 @@ async def get_current_user(
 ) -> TokenData:
     payload = _decode_token(credentials.credentials)
     return TokenData(payload)
+
+
+async def get_optional_user(
+    credentials: Annotated[
+        HTTPAuthorizationCredentials | None, Depends(optional_bearer_scheme)
+    ],
+) -> TokenData | None:
+    """Resolve the user if a valid token is present, else None.
+
+    Used by public endpoints (the marketplace is browsable while signed out) so
+    they can still tailor the response when a token happens to be supplied.
+    """
+    if credentials is None:
+        return None
+    try:
+        return TokenData(_decode_token(credentials.credentials))
+    except HTTPException:
+        return None
 
 
 def require_role(role: str):

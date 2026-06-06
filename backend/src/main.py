@@ -7,6 +7,7 @@ from src.config.settings import settings
 from src.core.exceptions import AppError, app_error_handler
 from src.api.v1.router import api_router
 from src.db.minio import ensure_bucket_exists
+from src.services.seed import seed_demo_data
 
 logging.basicConfig(level=settings.log_level)
 
@@ -29,6 +30,7 @@ async def startup() -> None:
     # Schema is managed by Alembic migrations, applied on container start
     # (see entrypoint.sh -> `alembic upgrade head`).
     ensure_bucket_exists()
+    await seed_demo_data()
 
 
 @app.get("/health")

@@ -41,6 +41,13 @@ async def get_file_by_object_name(db: AsyncSession, object_name: str) -> File | 
     return result.scalar_one_or_none()
 
 
+async def get_files_by_loan(db: AsyncSession, loan_id: uuid.UUID) -> Sequence[File]:
+    result = await db.execute(
+        select(File).where(File.loan_id == loan_id).order_by(File.created_at.desc())
+    )
+    return result.scalars().all()
+
+
 async def delete_file(db: AsyncSession, file_id: uuid.UUID) -> bool:
     result = await db.execute(delete(File).where(File.id == file_id))
     return result.rowcount > 0

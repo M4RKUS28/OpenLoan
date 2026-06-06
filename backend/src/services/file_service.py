@@ -8,6 +8,7 @@ from src.db.crud.file import (
     create_file,
     delete_file,
     get_file,
+    get_files_by_loan,
     get_user_files,
     update_file_size,
 )
@@ -32,8 +33,14 @@ async def initiate_upload(
     user_id: str,
     filename: str,
     content_type: str,
+    loan_id: uuid.UUID | None = None,
+    category: str | None = None,
 ) -> UploadIntent:
-    """Create DB record and return a presigned PUT URL for direct browser upload."""
+    """Create DB record and return a presigned PUT URL for direct browser upload.
+
+    When ``loan_id`` is set the file is attached to a trade deal (e.g. trade
+    documents, risk-assessment material or product images).
+    """
     object_name = build_object_name(user_id, filename)
     upload_url = generate_upload_url(object_name)
 
@@ -43,8 +50,16 @@ async def initiate_upload(
         filename=filename,
         object_name=object_name,
         content_type=content_type,
+        loan_id=loan_id,
+        category=category,
     )
     return UploadIntent(file_id=file.id, upload_url=upload_url, object_name=object_name)
+
+
+async def list_loan_documents(db: AsyncSession, loan_id: uuid.UUID) -> list[tuple[File, str]]:
+    """Return each document attached to a loan with a fresh presigned download URL."""
+    files = await get_files_by_loan(db, loan_id)
+    return [(f, generate_download_url(f.object_name)) for f in files]
 
 
 async def confirm_upload(

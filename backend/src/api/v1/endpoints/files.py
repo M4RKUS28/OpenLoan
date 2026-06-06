@@ -29,7 +29,14 @@ UserDep = Annotated[TokenData, Depends(get_current_user)]
 
 @router.post("/upload/initiate", response_model=UploadIntentResponse)
 async def initiate(body: InitiateUploadRequest, db: DbDep, user: UserDep):
-    intent = await initiate_upload(db, user.user_id, body.filename, body.content_type)
+    intent = await initiate_upload(
+        db,
+        user.user_id,
+        body.filename,
+        body.content_type,
+        loan_id=body.loan_id,
+        category=body.category,
+    )
     return UploadIntentResponse(
         file_id=intent.file_id,
         upload_url=intent.upload_url,

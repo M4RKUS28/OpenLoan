@@ -7,6 +7,8 @@ from pydantic import BaseModel, ConfigDict
 class InitiateUploadRequest(BaseModel):
     filename: str
     content_type: str
+    loan_id: uuid.UUID | None = None
+    category: str | None = None
 
 
 class ConfirmUploadRequest(BaseModel):
@@ -28,6 +30,8 @@ class FileResponse(BaseModel):
     object_name: str
     content_type: str
     size_bytes: int
+    loan_id: uuid.UUID | None = None
+    category: str | None = None
     created_at: datetime
     updated_at: datetime
 
