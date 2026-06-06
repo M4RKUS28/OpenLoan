@@ -1,14 +1,24 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { LandingPage } from "@/pages/Landing";
 import { LoginPage } from "@/pages/Login";
+import { SignUpPage } from "@/pages/SignUp";
 import { DashboardPage } from "@/pages/Dashboard";
 import { FileManagerPage } from "@/pages/FileManager";
 
 export const router = createBrowserRouter([
   {
+    path: "/",
+    element: <LandingPage />,
+  },
+  {
     path: "/login",
     element: <LoginPage />,
+  },
+  {
+    path: "/signup",
+    element: <SignUpPage />,
   },
   {
     element: (
@@ -17,7 +27,7 @@ export const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
-      { index: true, element: <DashboardPage /> },
+      { path: "dashboard", element: <DashboardPage /> },
       { path: "files", element: <FileManagerPage /> },
       {
         path: "admin",

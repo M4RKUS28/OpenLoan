@@ -11,12 +11,14 @@ services:
       - "9001:9001"   # Console UI
 
   keycloak:
-    command: start-dev
+    command: start-dev --import-realm
     environment:
       KC_HOSTNAME: localhost
       KC_HOSTNAME_PORT: "8080"
-      KC_PROXY: ""
+      KC_PROXY: none
       KC_HTTP_ENABLED: "true"
+    volumes:
+      - ./keycloak/realm-app.json:/opt/keycloak/data/import/realm-app.json:ro
     ports:
       - "8080:8080"
 
@@ -26,6 +28,7 @@ services:
       target: development
     volumes:
       - ./backend/src:/app/src:rw
+      - ./backend/alembic:/app/alembic:rw
     environment:
       LOG_LEVEL: DEBUG
       RELOAD: "true"
@@ -44,7 +47,7 @@ services:
     ports:
       - "5173:5173"
     environment:
-      VITE_API_URL: http://localhost/api
+      VITE_API_URL: /api/v1
       VITE_KEYCLOAK_URL: http://localhost:8080
       VITE_KEYCLOAK_REALM: app
       VITE_KEYCLOAK_CLIENT_ID: app-frontend

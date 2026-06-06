@@ -24,6 +24,18 @@ def ensure_bucket_exists(bucket: str | None = None) -> None:
         client.make_bucket(bucket)
 
 
+def _to_public_url(url: str) -> str:
+    """Rewrite an internally-signed MinIO URL to the browser-reachable public
+    endpoint (nginx proxies /storage -> minio:9000).
+
+    The SigV4 signature stays valid because nginx forwards to MinIO with the
+    original Host header (minio:9000) and the same path/query.
+    """
+    scheme = "https" if settings.minio_secure else "http"
+    internal_base = f"{scheme}://{settings.minio_endpoint}"
+    return url.replace(internal_base, settings.minio_public_url, 1)
+
+
 def get_presigned_upload_url(
     object_name: str,
     bucket: str | None = None,
@@ -31,10 +43,12 @@ def get_presigned_upload_url(
 ) -> str:
     """Return a presigned PUT URL for direct browser upload."""
     client = get_minio_client()
-    return client.presigned_put_object(
-        bucket_name=bucket or settings.minio_bucket,
-        object_name=object_name,
-        expires=timedelta(seconds=expiry_seconds or settings.minio_presigned_expiry),
+    return _to_public_url(
+        client.presigned_put_object(
+            bucket_name=bucket or settings.minio_bucket,
+            object_name=object_name,
+            expires=timedelta(seconds=expiry_seconds or settings.minio_presigned_expiry),
+        )
     )
 
 
@@ -45,10 +59,12 @@ def get_presigned_download_url(
 ) -> str:
     """Return a presigned GET URL for temporary download access."""
     client = get_minio_client()
-    return client.presigned_get_object(
-        bucket_name=bucket or settings.minio_bucket,
-        object_name=object_name,
-        expires=timedelta(seconds=expiry_seconds or settings.minio_presigned_expiry),
+    return _to_public_url(
+        client.presigned_get_object(
+            bucket_name=bucket or settings.minio_bucket,
+            object_name=object_name,
+            expires=timedelta(seconds=expiry_seconds or settings.minio_presigned_expiry),
+        )
     )
 
 

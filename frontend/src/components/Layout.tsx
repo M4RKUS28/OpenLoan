@@ -9,7 +9,7 @@ export function Layout() {
       <header className="border-b border-border">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
           <nav className="flex items-center gap-6">
-            <Link to="/" className="font-semibold text-primary">
+            <Link to="/dashboard" className="font-semibold text-primary">
               App
             </Link>
             <Link to="/files" className="text-sm text-muted-foreground hover:text-foreground">

@@ -26,6 +26,8 @@ app.include_router(api_router)
 
 @app.on_event("startup")
 async def startup() -> None:
+    # Schema is managed by Alembic migrations, applied on container start
+    # (see entrypoint.sh -> `alembic upgrade head`).
     ensure_bucket_exists()
 
 

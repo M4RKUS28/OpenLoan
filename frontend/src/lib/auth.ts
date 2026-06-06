@@ -22,6 +22,12 @@ export async function login() {
   await keycloak.login();
 }
 
+export async function register() {
+  // Redirects to Keycloak's hosted registration form (requires
+  // registrationAllowed=true on the realm).
+  await keycloak.register();
+}
+
 export async function logout() {
   await keycloak.logout({ redirectUri: window.location.origin });
 }

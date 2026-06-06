@@ -51,4 +51,7 @@ async def update_file_size(db: AsyncSession, file_id: uuid.UUID, size_bytes: int
     if file:
         file.size_bytes = size_bytes
         await db.flush()
+        # Reload server-side onupdate columns (updated_at) within the async
+        # context, so later attribute access doesn't trigger a lazy load.
+        await db.refresh(file)
     return file

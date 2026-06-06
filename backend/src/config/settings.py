@@ -20,6 +20,10 @@ class Settings(BaseSettings):
     minio_bucket: str = "uploads"
     minio_presigned_expiry: int = 3600
     minio_secure: bool = False
+    # Browser-reachable base URL for presigned URLs (proxied to MinIO by nginx
+    # at /storage). The internal endpoint (minio:9000) is not resolvable from
+    # the user's browser.
+    minio_public_url: str = "http://localhost/storage"
 
     # Keycloak
     keycloak_host: str = "keycloak"
