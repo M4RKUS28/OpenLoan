@@ -1,1 +1,9 @@
-.venv
+.env
+*.env.local
+node_modules/
+__pycache__/
+*.pyc
+.uv/
+dist/
+.vite/
+*.egg-info/
