@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { buttonVariants } from "@/components/ui/Button";
 import { useMarketplace } from "@/hooks/useLoans";
+import { media } from "@/lib/images";
 import { cn, formatCurrency, formatPercent } from "@/lib/utils";
 
 export function LandingPage() {
@@ -29,7 +30,7 @@ export function LandingPage() {
       <HowItWorks />
       <ScoringSection />
       <AuctionSection />
-      <StatsBand />
+      <TradeBand />
       <Faq />
       <FinalCta />
     </>
@@ -38,19 +39,44 @@ export function LandingPage() {
 
 /* ── Hero ──────────────────────────────────────────────────────────────── */
 
-function Hero({ deals }: { deals: { id: string; title: string; amount: number; currency: string; interest_rate: number; best_rate?: number | null }[] }) {
+type DealLite = {
+  id: string;
+  title: string;
+  amount: number;
+  currency: string;
+  interest_rate: number;
+  best_rate?: number | null;
+};
+
+function Hero({ deals }: { deals: DealLite[] }) {
   return (
-    <section className="relative overflow-hidden bg-harbor-deep text-paper grain-overlay">
+    <section className="relative isolate overflow-hidden text-paper grain-overlay">
+      {/* Victoria Harbour skyline, slowly drifting. */}
+      <div
+        className="absolute inset-0 -z-20 bg-cover bg-center animate-ken-burns"
+        style={{ backgroundImage: `url(${media.hongKongNight})` }}
+        aria-hidden
+      />
+      {/* Harbour-tinted veil keeps the copy legible over the photo. */}
+      <div
+        className="absolute inset-0 -z-10"
+        style={{
+          background:
+            "linear-gradient(105deg, rgba(4,15,20,0.97) 0%, rgba(6,22,28,0.9) 40%, rgba(8,30,38,0.66) 74%, rgba(10,42,52,0.5) 100%), radial-gradient(80% 70% at 90% 6%, rgba(44,126,140,0.32), transparent 55%), radial-gradient(60% 60% at 100% 100%, rgba(194,54,42,0.20), transparent 60%)",
+        }}
+        aria-hidden
+      />
+
       <div className="relative mx-auto grid max-w-7xl gap-12 px-4 pb-20 pt-16 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8 lg:pb-28 lg:pt-24">
         <div className="flex flex-col justify-center">
-          <span className="eyebrow inline-flex w-fit items-center gap-2 rounded-full border border-paper/15 bg-paper/5 px-3 py-1.5 text-gold-light animate-fade-in">
-            <span className="h-1.5 w-1.5 rounded-full bg-gold" /> Greater Bay Area · Hong Kong
+          <span className="eyebrow inline-flex w-fit items-center gap-2 rounded-full border border-paper/15 bg-paper/5 px-3 py-1.5 text-gold-light backdrop-blur-sm animate-fade-in">
+            <span className="h-1.5 w-1.5 rounded-full bg-gold animate-pulse-glow" /> Greater Bay Area · Hong Kong
           </span>
           <h1 className="mt-6 max-w-xl font-display text-4xl font-semibold leading-[1.05] tracking-tightish text-balance animate-fade-up sm:text-6xl">
             An open marketplace for{" "}
             <span className="text-gold-light">trade finance</span>.
           </h1>
-          <p className="mt-6 max-w-lg text-lg leading-relaxed text-paper/70 animate-fade-up delay-1">
+          <p className="mt-6 max-w-lg text-lg leading-relaxed text-paper/75 animate-fade-up delay-1">
             Instead of one bank deciding, capital providers compete to fund real trade
             deals. TradeFlow connects Hong Kong's businesses with investors — deal by deal.
           </p>
@@ -62,7 +88,7 @@ function Hero({ deals }: { deals: { id: string; title: string; amount: number; c
               to="/deals/new"
               className={cn(
                 buttonVariants({ size: "lg" }),
-                "border border-paper/20 bg-transparent text-paper hover:bg-paper/10 hover:shadow-none",
+                "border border-paper/25 bg-paper/5 text-paper backdrop-blur-sm hover:bg-paper/10 hover:shadow-none",
               )}
             >
               Post a deal
@@ -82,8 +108,16 @@ function Hero({ deals }: { deals: { id: string; title: string; amount: number; c
           </dl>
         </div>
 
+        {/* 3D scene: rotating globe with the live deal card floating in front. */}
         <div className="relative flex items-center justify-center">
-          <HeroDealCard deals={deals} />
+          <div className="scene-3d relative mx-auto flex min-h-[360px] w-full max-w-md items-center justify-center py-4 animate-fade-in delay-2">
+            <Globe />
+            <div className="absolute -bottom-3 right-0 w-[256px] animate-float-y sm:-right-3 sm:w-[296px]">
+              <div className="tilt-3d">
+                <HeroDealCard deals={deals} />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -92,15 +126,54 @@ function Hero({ deals }: { deals: { id: string; title: string; amount: number; c
   );
 }
 
-function HeroDealCard({ deals }: { deals: { title: string; amount: number; currency: string; interest_rate: number; best_rate?: number | null }[] }) {
+/* A CSS-only rotating globe: an equirectangular earth texture scrolls
+   horizontally (two copies, wraps seamlessly) inside a shaded circular mask. */
+function Globe() {
+  return (
+    <div className="relative aspect-square w-[80%] max-w-[360px] sm:w-[88%]">
+      {/* atmosphere */}
+      <div className="absolute inset-[-14%] rounded-full bg-harbor-glow/25 blur-3xl" aria-hidden />
+      {/* orbit rings */}
+      <div className="absolute inset-[-7%] rounded-full border border-paper/10" aria-hidden />
+      <div className="absolute inset-[3%] rounded-full border border-paper/5" aria-hidden />
+      {/* orbiting satellite */}
+      <div className="absolute left-1/2 top-1/2" aria-hidden>
+        <span
+          className="block h-2.5 w-2.5 -ml-[5px] -mt-[5px] rounded-full bg-gold-light shadow-[0_0_16px_4px_rgba(230,205,140,0.65)] animate-orbit"
+          style={{ "--orbit-r": "168px" } as CSSProperties}
+        />
+      </div>
+
+      <div className="globe absolute inset-0 animate-float-y-slow">
+        <div className="globe-map absolute inset-y-0 left-0 flex w-max animate-globe-spin will-change-transform">
+          <img src={media.earthTexture} alt="" aria-hidden draggable={false} className="h-full w-auto max-w-none shrink-0 select-none" />
+          <img src={media.earthTexture} alt="" aria-hidden draggable={false} className="h-full w-auto max-w-none shrink-0 select-none" />
+        </div>
+
+        {/* Hong Kong hub marker (decorative anchor). */}
+        <div className="absolute left-[33%] top-[39%] z-[4] flex items-center gap-2">
+          <span className="relative grid place-items-center">
+            <span className="absolute h-3.5 w-3.5 rounded-full bg-gold-light/60 animate-pulse-glow" />
+            <span className="relative h-2 w-2 rounded-full bg-gold-light ring-2 ring-harbor-950" />
+          </span>
+          <span className="whitespace-nowrap rounded-full border border-paper/15 bg-harbor-950/70 px-2 py-0.5 text-[0.56rem] font-semibold uppercase tracking-widest2 text-gold-light backdrop-blur-sm">
+            Hong Kong
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HeroDealCard({ deals }: { deals: DealLite[] }) {
   const sample = deals[0];
   return (
-    <div className="relative w-full max-w-sm animate-scale-in delay-2">
-      <div className="absolute -right-6 -top-6 h-28 w-28 rounded-full bg-brand/30 blur-2xl" />
-      <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-harbor-glow/30 blur-3xl" />
-      <div className="relative rounded-2xl border border-paper/12 bg-paper/[0.07] p-6 shadow-harbor backdrop-blur-xl">
+    <div className="relative w-full">
+      <div className="relative rounded-2xl border border-paper/15 bg-harbor-950/55 p-6 shadow-harbor backdrop-blur-xl">
         <div className="flex items-center justify-between">
-          <span className="eyebrow text-paper/50">Live deal</span>
+          <span className="eyebrow inline-flex items-center gap-1.5 text-paper/55">
+            <span className="h-1.5 w-1.5 rounded-full bg-jade-soft animate-pulse-glow" /> Live deal
+          </span>
           <span className="grid h-10 w-10 place-items-center rounded-lg bg-jade font-display text-lg font-semibold text-paper">
             A
           </span>
@@ -109,13 +182,13 @@ function HeroDealCard({ deals }: { deals: { title: string; amount: number; curre
           {sample?.title ?? "Import of consumer electronics from Shenzhen"}
         </h3>
         <div className="mt-6 grid grid-cols-2 gap-4">
-          <div className="rounded-xl border border-paper/10 bg-harbor-950/40 p-4">
+          <div className="rounded-xl border border-paper/10 bg-harbor-950/50 p-4">
             <p className="text-[0.62rem] uppercase tracking-widest2 text-paper/45">Requested</p>
             <p className="mt-1 font-mono text-lg font-semibold text-paper nums">
               {formatCurrency(sample?.amount ?? 850000, sample?.currency ?? "HKD", true)}
             </p>
           </div>
-          <div className="rounded-xl border border-paper/10 bg-harbor-950/40 p-4">
+          <div className="rounded-xl border border-paper/10 bg-harbor-950/50 p-4">
             <p className="text-[0.62rem] uppercase tracking-widest2 text-paper/45">Best rate</p>
             <p className="mt-1 font-mono text-lg font-semibold text-gold-light nums">
               {formatPercent(sample?.best_rate ?? sample?.interest_rate ?? 7.9)}
@@ -145,10 +218,10 @@ function HeroDealCard({ deals }: { deals: { title: string; amount: number; curre
   );
 }
 
-function DealTicker({ deals }: { deals: { id: string; title: string; amount: number; currency: string; interest_rate: number; best_rate?: number | null }[] }) {
+function DealTicker({ deals }: { deals: DealLite[] }) {
   const row = [...deals, ...deals];
   return (
-    <div className="relative border-t border-paper/10 bg-harbor-950/50 py-3">
+    <div className="relative border-t border-paper/10 bg-harbor-950/60 py-3 backdrop-blur-sm">
       <div className="ticker-mask overflow-hidden">
         <div className="flex w-max animate-ticker gap-8 whitespace-nowrap">
           {row.map((d, i) => (
@@ -294,36 +367,56 @@ function ScoringSection() {
           </p>
         </div>
 
-        <div className="card-surface overflow-hidden p-7">
-          <div className="flex items-center justify-between border-b border-line pb-5">
-            <div>
-              <p className="eyebrow text-ink-muted">Sample assessment</p>
-              <p className="mt-1 font-display text-lg font-semibold">Pearl River Electronics</p>
+        {/* Score panel floating in front of a framed photo of Central / IFC. */}
+        <div className="relative">
+          <figure
+            className="absolute -right-4 -top-8 hidden h-[86%] w-[80%] overflow-hidden rounded-2xl border border-line-strong shadow-lift lg:block"
+            style={{ transform: "rotate(2.5deg)" }}
+            aria-hidden
+          >
+            <img
+              src={media.centralFinance}
+              alt=""
+              loading="lazy"
+              className="h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-tr from-harbor-deep/55 via-harbor-deep/10 to-gold/10" />
+            <figcaption className="absolute bottom-3 left-3 rounded-full border border-paper/20 bg-harbor-950/70 px-2.5 py-1 text-[0.6rem] font-semibold uppercase tracking-widest2 text-paper backdrop-blur-sm">
+              Central · Hong Kong
+            </figcaption>
+          </figure>
+
+          <div className="card-surface relative overflow-hidden p-7 lg:mt-10">
+            <div className="flex items-center justify-between border-b border-line pb-5">
+              <div>
+                <p className="eyebrow text-ink-muted">Sample assessment</p>
+                <p className="mt-1 font-display text-lg font-semibold">Pearl River Electronics</p>
+              </div>
+              <span className="grid h-14 w-14 place-items-center rounded-xl bg-jade font-display text-2xl font-semibold text-paper">
+                A
+              </span>
             </div>
-            <span className="grid h-14 w-14 place-items-center rounded-xl bg-jade font-display text-2xl font-semibold text-paper">
-              A
-            </span>
-          </div>
-          <div className="mt-5 space-y-4">
-            {factors.map((f, i) => {
-              const val = [88, 82, 79, 84, 90][i];
-              return (
-                <div key={f.l}>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-ink-soft">{f.l}</span>
-                    <span className="font-mono text-ink-muted nums">
-                      {val} · {f.w}
-                    </span>
+            <div className="mt-5 space-y-4">
+              {factors.map((f, i) => {
+                const val = [88, 82, 79, 84, 90][i];
+                return (
+                  <div key={f.l}>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-ink-soft">{f.l}</span>
+                      <span className="font-mono text-ink-muted nums">
+                        {val} · {f.w}
+                      </span>
+                    </div>
+                    <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-paper-deep">
+                      <div
+                        className="h-full rounded-full bg-gradient-to-r from-jade to-jade-600"
+                        style={{ width: `${val}%` }}
+                      />
+                    </div>
                   </div>
-                  <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-paper-deep">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-jade to-jade-600"
-                      style={{ width: `${val}%` }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
@@ -399,23 +492,52 @@ function AuctionSection() {
   );
 }
 
-/* ── Stats band ────────────────────────────────────────────────────────── */
+/* ── Trade band (photographic stats over the container port) ───────────── */
 
-function StatsBand() {
+function TradeBand() {
+  const stats = [
+    { v: "US$2.5T+", l: "Global trade finance gap" },
+    { v: "98%", l: "of HK businesses are SMEs" },
+    { v: "5 signals", l: "behind every score" },
+    { v: "1 market", l: "open to all qualified investors" },
+  ];
   return (
-    <section className="bg-harbor-deep text-paper grain-overlay">
-      <div className="relative mx-auto grid max-w-7xl grid-cols-2 gap-8 px-4 py-16 sm:px-6 lg:grid-cols-4">
-        {[
-          { v: "US$2.5T+", l: "Global trade finance gap" },
-          { v: "98%", l: "of HK businesses are SMEs" },
-          { v: "5 signals", l: "behind every score" },
-          { v: "1 market", l: "open to all qualified investors" },
-        ].map((s) => (
-          <div key={s.l} className="text-center">
-            <p className="font-display text-3xl font-semibold text-gold-light nums sm:text-4xl">{s.v}</p>
-            <p className="mt-2 text-sm text-paper/60">{s.l}</p>
-          </div>
-        ))}
+    <section className="photo-band text-paper">
+      <div
+        className="photo-band-img"
+        style={{ backgroundImage: `url(${media.containerPort})` }}
+        aria-hidden
+      />
+      <div
+        className="photo-band-veil"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(5,17,22,0.86) 0%, rgba(6,20,26,0.8) 100%), linear-gradient(100deg, rgba(4,14,18,0.92) 0%, rgba(6,22,28,0.4) 70%)",
+        }}
+        aria-hidden
+      />
+      <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:py-24">
+        <div className="max-w-2xl">
+          <span className="eyebrow inline-flex items-center gap-2 text-gold-light">
+            <Ship className="h-4 w-4" /> Greater Bay Area
+          </span>
+          <h2 className="mt-3 font-display text-3xl font-semibold tracking-tightish text-balance sm:text-4xl">
+            Finance that moves with real trade
+          </h2>
+          <p className="mt-4 max-w-xl text-paper/75">
+            From Kwai Tsing's container terminals to the Pearl River Delta, TradeFlow links
+            the region's importers and exporters with the capital that keeps goods moving —
+            one verified deal at a time.
+          </p>
+        </div>
+        <dl className="mt-12 grid grid-cols-2 gap-8 border-t border-paper/15 pt-10 lg:grid-cols-4">
+          {stats.map((s) => (
+            <div key={s.l}>
+              <dt className="font-display text-3xl font-semibold text-gold-light nums sm:text-4xl">{s.v}</dt>
+              <dd className="mt-2 text-sm text-paper/65">{s.l}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </section>
   );
@@ -487,11 +609,20 @@ function Faq() {
 function FinalCta() {
   return (
     <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6">
-      <div className="relative overflow-hidden rounded-3xl bg-harbor-deep px-8 py-16 text-center text-paper grain-overlay sm:px-16">
+      <div className="relative isolate overflow-hidden rounded-3xl bg-harbor-deep px-8 py-16 text-center text-paper grain-overlay sm:px-16">
+        <div
+          className="absolute inset-0 -z-10 bg-cover bg-center opacity-25"
+          style={{ backgroundImage: `url(${media.hongKongNight})` }}
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 -z-10 bg-gradient-to-t from-harbor-deep via-harbor-deep/75 to-harbor-deep/45"
+          aria-hidden
+        />
         <h2 className="relative mx-auto max-w-2xl font-display text-3xl font-semibold tracking-tightish text-balance sm:text-4xl">
           Every legitimate trade deal deserves to be financed
         </h2>
-        <p className="relative mx-auto mt-4 max-w-lg text-paper/70">
+        <p className="relative mx-auto mt-4 max-w-lg text-paper/75">
           Join the open marketplace for trade finance in Hong Kong and the Greater Bay Area.
         </p>
         <div className="relative mt-9 flex flex-wrap items-center justify-center gap-3">
@@ -502,7 +633,7 @@ function FinalCta() {
             to="/deals/new"
             className={cn(
               buttonVariants({ size: "lg" }),
-              "border border-paper/20 bg-transparent text-paper hover:bg-paper/10 hover:shadow-none",
+              "border border-paper/25 bg-paper/5 text-paper backdrop-blur-sm hover:bg-paper/10 hover:shadow-none",
             )}
           >
             Post your first deal

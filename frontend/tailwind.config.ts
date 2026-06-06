@@ -109,12 +109,51 @@ export default {
           "0%": { transform: "translateX(0)" },
           "100%": { transform: "translateX(-50%)" },
         },
+        // Scrolls the equirectangular earth texture for a rotating-globe illusion.
+        "globe-spin": {
+          "0%": { transform: "translate3d(0,0,0)" },
+          "100%": { transform: "translate3d(-50%,0,0)" },
+        },
+        // Gentle 3D float for the hero card and accents.
+        "float-y": {
+          "0%,100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-14px)" },
+        },
+        "float-y-slow": {
+          "0%,100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-22px)" },
+        },
+        // Orbit ring satellite + the 3D spinning coin.
+        orbit: {
+          "0%": { transform: "rotate(0deg) translateX(var(--orbit-r,140px)) rotate(0deg)" },
+          "100%": { transform: "rotate(360deg) translateX(var(--orbit-r,140px)) rotate(-360deg)" },
+        },
+        "coin-spin": {
+          "0%": { transform: "rotateY(0deg)" },
+          "100%": { transform: "rotateY(360deg)" },
+        },
+        // Slow cinematic zoom for full-bleed photo backdrops.
+        "ken-burns": {
+          "0%": { transform: "scale(1.05)" },
+          "100%": { transform: "scale(1.16)" },
+        },
+        "pulse-glow": {
+          "0%,100%": { opacity: "1", transform: "scale(1)" },
+          "50%": { opacity: "0.55", transform: "scale(1.6)" },
+        },
       },
       animation: {
         "fade-up": "fade-up 0.6s cubic-bezier(0.22,1,0.36,1) both",
         "fade-in": "fade-in 0.6s ease-out both",
         "scale-in": "scale-in 0.4s cubic-bezier(0.22,1,0.36,1) both",
         ticker: "ticker 40s linear infinite",
+        "globe-spin": "globe-spin 48s linear infinite",
+        "float-y": "float-y 7s ease-in-out infinite",
+        "float-y-slow": "float-y-slow 9s ease-in-out infinite",
+        orbit: "orbit 18s linear infinite",
+        "coin-spin": "coin-spin 9s linear infinite",
+        "ken-burns": "ken-burns 26s ease-out forwards",
+        "pulse-glow": "pulse-glow 2.8s ease-in-out infinite",
       },
     },
   },
