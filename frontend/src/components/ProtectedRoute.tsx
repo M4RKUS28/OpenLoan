@@ -17,7 +17,7 @@ export function ProtectedRoute({ children, requiredRole }: Props) {
     );
   }
 
-  if (!authenticated) return <Navigate to="/login" replace />;
+  if (!authenticated) return <Navigate to="/signin" replace />;
 
   if (requiredRole && !user?.roles.includes(requiredRole)) {
     return <Navigate to="/forbidden" replace />;

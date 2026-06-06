@@ -18,14 +18,14 @@ export async function initKeycloak(): Promise<boolean> {
   return initPromise;
 }
 
-export async function login() {
-  await keycloak.login();
+export async function login(redirectUri?: string) {
+  await keycloak.login(redirectUri ? { redirectUri } : undefined);
 }
 
-export async function register() {
+export async function register(redirectUri?: string) {
   // Redirects to Keycloak's hosted registration form (requires
   // registrationAllowed=true on the realm).
-  await keycloak.register();
+  await keycloak.register(redirectUri ? { redirectUri } : undefined);
 }
 
 export async function logout() {

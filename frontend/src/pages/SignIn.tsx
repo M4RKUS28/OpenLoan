@@ -2,10 +2,10 @@ import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 
-// Sends the user straight to Keycloak's hosted registration page. If they
-// already have a session (check-sso), they go directly to the dashboard.
-export function SignUpPage() {
-  const { ready, authenticated, register } = useAuth();
+// Sends the user straight to Keycloak's hosted login page. If they already
+// have a session (check-sso), they go directly to the dashboard instead.
+export function SignInPage() {
+  const { ready, authenticated, login } = useAuth();
   const navigate = useNavigate();
   const triggered = useRef(false);
 
@@ -16,12 +16,12 @@ export function SignUpPage() {
       return;
     }
     triggered.current = true;
-    register(window.location.origin + "/dashboard");
-  }, [ready, authenticated, register, navigate]);
+    login(window.location.origin + "/dashboard");
+  }, [ready, authenticated, login, navigate]);
 
   return (
     <div className="flex h-screen items-center justify-center">
-      <span className="text-muted-foreground text-sm">Redirecting to sign up…</span>
+      <span className="text-muted-foreground text-sm">Redirecting to sign in…</span>
     </div>
   );
 }

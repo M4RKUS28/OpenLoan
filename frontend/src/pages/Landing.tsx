@@ -40,7 +40,7 @@ export function LandingPage() {
             ) : (
               <>
                 <Link
-                  to="/login"
+                  to="/signin"
                   className="text-sm text-muted-foreground hover:text-foreground"
                 >
                   Sign in
@@ -83,7 +83,7 @@ export function LandingPage() {
                   Create free account
                 </Link>
                 <Link
-                  to="/login"
+                  to="/signin"
                   className="rounded-lg border border-border px-6 py-3 hover:bg-secondary"
                 >
                   Sign in

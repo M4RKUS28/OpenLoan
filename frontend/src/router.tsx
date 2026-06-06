@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { LandingPage } from "@/pages/Landing";
-import { LoginPage } from "@/pages/Login";
+import { SignInPage } from "@/pages/SignIn";
 import { SignUpPage } from "@/pages/SignUp";
 import { DashboardPage } from "@/pages/Dashboard";
 import { FileManagerPage } from "@/pages/FileManager";
@@ -13,8 +13,8 @@ export const router = createBrowserRouter([
     element: <LandingPage />,
   },
   {
-    path: "/login",
-    element: <LoginPage />,
+    path: "/signin",
+    element: <SignInPage />,
   },
   {
     path: "/signup",
