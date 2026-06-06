@@ -35,7 +35,7 @@ Greater Bay Area.
 ## Stack
 
 | Layer | Technology |
-|---|---|
+| --- | --- |
 | Frontend | React 18, Vite, TypeScript, Tailwind CSS, custom UI kit (shadcn-style) |
 | Routing | React Router v6 |
 | Server state | TanStack Query |
@@ -55,7 +55,7 @@ Greater Bay Area.
 ## Domain model
 
 | Model | Purpose |
-|---|---|
+| --- | --- |
 | `Company` | A trading business profile (industry, country, revenue, contact). |
 | `Loan` | A single trade deal: goods, amount, term, route, status, placeholder score. |
 | `Bid` | A lender's competing offer (amount, rate, message, status) on a deal. |
@@ -72,7 +72,7 @@ All routes are under `/v1` (proxied at `/api/v1` through Nginx). Marketplace rea
 public; writes require a Keycloak-authenticated user.
 
 | Method | Route | Auth | Description |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `GET` | `/v1/loans` | optional | Marketplace list. Filters: `search`, `status`, `industry`, `trade_type`, `risk_grade`, `sort`, `offset`, `limit`. |
 | `GET` | `/v1/loans/industries` | public | Distinct industries (for filters). |
 | `GET` | `/v1/loans/mine` | required | Deals owned by the current user. |
@@ -91,7 +91,7 @@ Interactive docs at `http://localhost:8000/docs`.
 ## Frontend routes
 
 | Path | Page |
-|---|---|
+| --- | --- |
 | `/` | Landing (hero, how it works, scoring, auction, FAQ) |
 | `/marketplace` | Deal listings with filters |
 | `/deals/:id` | Loan / deal detail |
@@ -107,7 +107,7 @@ Interactive docs at `http://localhost:8000/docs`.
 ## Services & ports
 
 | Service | Internal | Exposed (dev) |
-|---|---|---|
+| --- | --- | --- |
 | Nginx | 80 | 80 |
 | Frontend (Vite) | 5173 | 5173 |
 | Backend (FastAPI) | 8000 | 8000 |
@@ -121,7 +121,7 @@ subdomain (`auth.yourdomain.com`).
 
 ### Nginx routing (prod)
 
-```
+```text
 yourdomain.com/api/*   →  backend:8000
 yourdomain.com/        →  frontend:80  (SPA fallback)
 auth.yourdomain.com    →  keycloak:8080
@@ -147,9 +147,11 @@ docker compose -f docker-compose.yml up -d
 1. Open Keycloak at `http://localhost:8080`, create realm `app` and client `app-frontend`
    (public client, PKCE enabled, redirect URI `http://localhost/*`).
 2. Apply database migrations (also seeds the demo marketplace):
+
    ```bash
    docker compose exec backend uv run alembic upgrade head
    ```
+
 3. Open the app at `http://localhost/`.
 
 ---
@@ -177,7 +179,7 @@ docker compose -f docker-compose.yml up -d
 
 ## Project structure
 
-```
+```text
 .
 ├── docker-compose.yml            # production
 ├── docker-compose.override.yml   # dev (hot reload, exposed ports, config mounts)
