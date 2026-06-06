@@ -1,54 +1,57 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Layout } from "@/components/Layout";
+import { SiteLayout } from "@/components/SiteLayout";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { LandingPage } from "@/pages/Landing";
+import { MarketplacePage } from "@/pages/Marketplace";
+import { LoanDetailPage } from "@/pages/LoanDetail";
+import { NewDealPage } from "@/pages/NewDeal";
+import { DashboardPage } from "@/pages/Dashboard";
+import { CDIPage } from "@/pages/CDI";
+import { AboutPage } from "@/pages/About";
+import { MCPConnectorPage } from "@/pages/MCPConnector";
+import { NotFoundPage } from "@/pages/NotFound";
 import { SignInPage } from "@/pages/SignIn";
 import { SignUpPage } from "@/pages/SignUp";
-import { DashboardPage } from "@/pages/Dashboard";
-import { FileManagerPage } from "@/pages/FileManager";
 
 export const router = createBrowserRouter([
   {
-    path: "/",
-    element: <LandingPage />,
-  },
-  {
-    path: "/signin",
-    element: <SignInPage />,
-  },
-  {
-    path: "/signup",
-    element: <SignUpPage />,
-  },
-  {
-    element: (
-      <ProtectedRoute>
-        <Layout />
-      </ProtectedRoute>
-    ),
+    element: <SiteLayout />,
     children: [
-      { path: "dashboard", element: <DashboardPage /> },
-      { path: "files", element: <FileManagerPage /> },
+      { path: "/", element: <LandingPage /> },
+      { path: "marketplace", element: <MarketplacePage /> },
+      { path: "cdi", element: <CDIPage /> },
+      { path: "about", element: <AboutPage /> },
+      { path: "mcp", element: <MCPConnectorPage /> },
+      { path: "deals/:id", element: <LoanDetailPage /> },
       {
-        path: "admin",
+        path: "deals/new",
         element: (
-          <ProtectedRoute requiredRole="admin">
-            <div>
-              <h1 className="text-2xl font-bold">Admin Panel</h1>
-              <p className="text-muted-foreground">Admin-only area.</p>
-            </div>
+          <ProtectedRoute>
+            <NewDealPage />
           </ProtectedRoute>
         ),
       },
+      {
+        path: "dashboard",
+        element: (
+          <ProtectedRoute>
+            <DashboardPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "forbidden",
+        element: (
+          <NotFoundPage
+            code="403"
+            title="Forbidden"
+            body="You don't have permission to access this page."
+          />
+        ),
+      },
+      { path: "*", element: <NotFoundPage /> },
     ],
   },
-  {
-    path: "/forbidden",
-    element: (
-      <div className="flex h-screen flex-col items-center justify-center gap-2">
-        <h1 className="text-2xl font-bold">403 — Forbidden</h1>
-        <p className="text-muted-foreground">You don't have permission to access this page.</p>
-      </div>
-    ),
-  },
+  { path: "/signin", element: <SignInPage /> },
+  { path: "/signup", element: <SignUpPage /> },
 ]);

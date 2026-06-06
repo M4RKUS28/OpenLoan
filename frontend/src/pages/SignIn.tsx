@@ -1,9 +1,10 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { AuthRedirectScreen } from "@/components/AuthRedirectScreen";
 
 // Sends the user straight to Keycloak's hosted login page. If they already
-// have a session (check-sso), they go directly to the dashboard instead.
+// have a session (check-sso), they go directly to the marketplace instead.
 export function SignInPage() {
   const { ready, authenticated, login } = useAuth();
   const navigate = useNavigate();
@@ -12,16 +13,12 @@ export function SignInPage() {
   useEffect(() => {
     if (!ready || triggered.current) return;
     if (authenticated) {
-      navigate("/dashboard", { replace: true });
+      navigate("/marketplace", { replace: true });
       return;
     }
     triggered.current = true;
-    login(window.location.origin + "/dashboard");
+    login(window.location.origin + "/marketplace");
   }, [ready, authenticated, login, navigate]);
 
-  return (
-    <div className="flex h-screen items-center justify-center">
-      <span className="text-muted-foreground text-sm">Redirecting to sign in…</span>
-    </div>
-  );
+  return <AuthRedirectScreen label="Redirecting you to sign in…" />;
 }

@@ -42,6 +42,18 @@ export async function getValidToken(): Promise<string> {
   return keycloak.token;
 }
 
+// Returns a fresh token when signed in, or undefined when not — never throws.
+// Used by the API client so public endpoints (the marketplace) work for guests.
+export async function getOptionalToken(): Promise<string | undefined> {
+  if (!keycloak.authenticated) return undefined;
+  try {
+    await keycloak.updateToken(30);
+    return keycloak.token ?? undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 export function getUserInfo() {
   const p = keycloak.tokenParsed;
   if (!p) return null;

@@ -47,9 +47,13 @@ async def list_loans(
 
     if status:
         stmt = stmt.where(Loan.status == status)
+    elif owner_user_id:
+        # "My deals" view: show everything the owner has, including drafts.
+        pass
     else:
-        # Marketplace default: hide rejected deals.
-        stmt = stmt.where(Loan.status != "rejected")
+        # Public marketplace default: only deals that have gone live (or since
+        # progressed). Pending-approval and rejected deals stay private.
+        stmt = stmt.where(Loan.status.notin_(("pending_approval", "rejected")))
     if industry:
         stmt = stmt.where(Loan.industry == industry)
     if trade_type:

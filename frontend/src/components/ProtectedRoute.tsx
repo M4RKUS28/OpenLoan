@@ -11,8 +11,11 @@ export function ProtectedRoute({ children, requiredRole }: Props) {
 
   if (!ready) {
     return (
-      <div className="flex h-screen items-center justify-center">
-        <span className="text-muted-foreground text-sm">Loading...</span>
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-line-strong border-t-brand" />
+          <span className="text-sm text-ink-muted">Loading…</span>
+        </div>
       </div>
     );
   }
