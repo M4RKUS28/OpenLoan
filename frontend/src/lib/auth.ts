@@ -14,6 +14,12 @@ export async function initKeycloak(): Promise<boolean> {
     onLoad: "check-sso",
     silentCheckSsoRedirectUri: window.location.origin + "/silent-check-sso.html",
     pkceMethod: "S256",
+    // App and Keycloak live on different origins, so the login-status iframe's
+    // 3rd-party-cookie check (auth.../3p-cookies/step1.html) is framed cross-site
+    // and blocked by X-Frame-Options — it times out and fails init(). It relies on
+    // 3rd-party cookies that browsers block anyway. Disable it; session detection
+    // still works via the same-origin silent-check-sso iframe above.
+    checkLoginIframe: false,
   });
   return initPromise;
 }
