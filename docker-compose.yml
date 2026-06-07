@@ -81,6 +81,10 @@ services:
       # prod realm is already provisioned, the import is skipped — update the
       # redirect URIs in the Keycloak admin console instead.
       - ./keycloak/realm-app.json:/opt/keycloak/data/import/realm-app.json:ro
+      # Custom OpenLoan login theme (Sign in / Sign up). Detected at runtime —
+      # no rebuild needed. If the realm already exists, the loginTheme from the
+      # import above is skipped, so set it on the realm: see keycloak/themes/README.md.
+      - ./keycloak/themes:/opt/keycloak/themes:ro
     environment:
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://postgres:5432/${KEYCLOAK_DB}

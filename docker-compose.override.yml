@@ -23,6 +23,9 @@ services:
       KC_HTTP_ENABLED: "true"
     volumes:
       - ./keycloak/realm-app.json:/opt/keycloak/data/import/realm-app.json:ro
+      # OpenLoan login theme — start-dev disables theme caching, so edits to
+      # keycloak/themes/openloan/** show up on a browser refresh.
+      - ./keycloak/themes:/opt/keycloak/themes:ro
     ports:
       - "8080:8080"
 

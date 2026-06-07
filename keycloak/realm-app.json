@@ -1,6 +1,8 @@
 {
   "realm": "app",
   "enabled": true,
+  "displayName": "OpenLoan",
+  "loginTheme": "openloan",
   "sslRequired": "none",
   "registrationAllowed": true,
   "registrationEmailAsUsername": false,
