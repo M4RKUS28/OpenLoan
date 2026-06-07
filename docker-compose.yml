@@ -147,6 +147,13 @@ services:
     build:
       context: ./frontend
       target: production
+      # Baked into the SPA at build time. Point OIDC at the public auth domain,
+      # NOT the dev defaults (localhost) that live in frontend/.env.
+      args:
+        VITE_API_URL: /api/v1
+        VITE_KEYCLOAK_URL: https://${AUTH_DOMAIN}
+        VITE_KEYCLOAK_REALM: ${KEYCLOAK_REALM}
+        VITE_KEYCLOAK_CLIENT_ID: ${KEYCLOAK_CLIENT_ID}
     restart: unless-stopped
 
   # ── Nginx ─────────────────────────────────────────────────────────────────────

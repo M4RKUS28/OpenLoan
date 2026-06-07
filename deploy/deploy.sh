@@ -43,6 +43,25 @@ else
   log "Skipping git pull."
 fi
 
+# ── Switch the frontend to prod env BEFORE building ───────────────────────────
+# Vite inlines VITE_* into the SPA at build time. The (untracked) frontend/.env
+# holds dev defaults (localhost) — left alone, prod ships a build that redirects
+# OIDC to localhost. Derive the public values from $ENV_FILE and write
+# frontend/.env.production (Vite loads it in build mode, overriding .env). The
+# compose build args bake the same values; this keeps non-compose builds honest.
+log "Writing frontend/.env.production from $ENV_FILE…"
+get() { grep -E "^$1=" "$ENV_FILE" | head -n1 | cut -d= -f2- | tr -d "\"'\r"; }
+FE_AUTH_DOMAIN="$(get AUTH_DOMAIN)"
+FE_KC_REALM="$(get KEYCLOAK_REALM)"
+FE_KC_CLIENT="$(get KEYCLOAK_CLIENT_ID)"
+[ -n "$FE_AUTH_DOMAIN" ] || die "AUTH_DOMAIN missing from $ENV_FILE"
+cat > frontend/.env.production <<EOF
+VITE_API_URL=/api/v1
+VITE_KEYCLOAK_URL=https://${FE_AUTH_DOMAIN}
+VITE_KEYCLOAK_REALM=${FE_KC_REALM:-app}
+VITE_KEYCLOAK_CLIENT_ID=${FE_KC_CLIENT:-app-frontend}
+EOF
+
 # ── Build + start ─────────────────────────────────────────────────────────────
 log "Building images…"
 compose build
