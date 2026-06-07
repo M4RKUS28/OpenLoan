@@ -180,6 +180,9 @@ export function NewDealPage() {
   function extractFromDocuments() {
     const application = mockExtractLoanApplicationFieldsFromDocuments({
       demo_scenario: demoScenario,
+      // Keep the amount the user picked on the slider — extraction fills the
+      // remaining scoring fields but must not overwrite a value they set.
+      existing_fields: { loan_amount_hkd: amount },
       files,
     });
     applyExtractedFields(application);
