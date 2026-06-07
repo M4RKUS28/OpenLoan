@@ -56,7 +56,7 @@ export function NewDealPage() {
   const [revenue, setRevenue] = useState<string>("");
   const [companyDesc, setCompanyDesc] = useState("");
 
-  // Deal fields
+  // Loan fields
   const [title, setTitle] = useState("");
   const [goods, setGoods] = useState("");
   const [tradeType, setTradeType] = useState("import");
@@ -190,7 +190,7 @@ export function NewDealPage() {
     e.preventDefault();
     setError(null);
     if (name.trim().length < 2) return setError("Please enter your company name.");
-    if (title.trim().length < 4) return setError("Please give the deal a descriptive title.");
+    if (title.trim().length < 4) return setError("Please give the loan a descriptive title.");
 
     setSubmitting(true);
     try {
@@ -244,7 +244,7 @@ export function NewDealPage() {
       navigate(`/deals/${loan.id}`);
     } catch (err) {
       console.error(err);
-      setError("Something went wrong submitting your deal. Please try again.");
+      setError("Something went wrong submitting your loan. Please try again.");
       setSubmitting(false);
     }
   }
@@ -253,11 +253,11 @@ export function NewDealPage() {
     <>
       <section className="border-b border-line bg-paper-grad">
         <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
-          <span className="eyebrow text-brand">New financing request</span>
-          <h1 className="mt-2 font-display text-4xl font-semibold tracking-tightish">Post a trade deal</h1>
+          <span className="eyebrow text-brand">New loan request</span>
+          <h1 className="mt-2 font-display text-4xl font-semibold tracking-tightish">Request a trade-finance loan</h1>
           <p className="mt-3 max-w-xl text-ink-soft">
-            Describe a specific trade deal you need financed. We'll compute a OpenLoan Score and
-            open it to investors once you publish.
+            Describe a specific trade you need financed. We'll compute an OpenLoan Score and
+            open your loan to lenders once you publish.
           </p>
         </div>
       </section>
@@ -265,7 +265,7 @@ export function NewDealPage() {
       <form onSubmit={submit} className="mx-auto grid max-w-5xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.6fr_1fr]">
         <div className="space-y-6">
           {/* Company */}
-          <FormCard icon={Building2} title="Your business" subtitle="Used across your deals.">
+          <FormCard icon={Building2} title="Your business" subtitle="Used across your loans.">
             <div className="grid gap-4 sm:grid-cols-2">
               <Input label="Company name" value={name} onChange={setName} required placeholder="Pearl River Electronics Ltd" />
               <Input
@@ -296,10 +296,10 @@ export function NewDealPage() {
             />
           </FormCard>
 
-          {/* Deal */}
-          <FormCard icon={Ship} title="The trade deal">
+          {/* Loan */}
+          <FormCard icon={Ship} title="The trade to finance">
             <Input
-              label="Deal title"
+              label="Loan title"
               value={title}
               onChange={setTitle}
               required
@@ -517,7 +517,7 @@ export function NewDealPage() {
           <div className="rounded-2xl border border-line bg-card p-6 shadow-card">
             <p className="eyebrow text-ink-muted">Preview</p>
             <h3 className="mt-2 font-display text-lg font-semibold leading-snug text-ink">
-              {title || "Your deal title"}
+              {title || "Your loan title"}
             </h3>
             <p className="text-sm text-ink-muted">{name || "Your company"}</p>
 
@@ -529,7 +529,7 @@ export function NewDealPage() {
             </div>
 
             <div className="mt-5 rounded-lg border border-gold/40 bg-gold-tint px-3 py-2.5 text-xs text-ink-soft">
-              Your OpenLoan Score is computed on submission. The deal starts as
+              Your OpenLoan Score is computed on submission. The loan starts as
               <span className="font-semibold text-ink"> pending approval</span> until you publish it.
             </div>
 
@@ -538,7 +538,7 @@ export function NewDealPage() {
             )}
 
             <Button type="submit" className="mt-5 w-full" size="lg" disabled={submitting}>
-              {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Submit deal"}
+              {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Submit loan"}
             </Button>
             <p className="mt-3 text-center text-xs text-ink-muted">
               You can review and publish it on the next screen.

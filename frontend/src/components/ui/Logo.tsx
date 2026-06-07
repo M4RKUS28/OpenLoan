@@ -43,7 +43,7 @@ export function Logo({
             tone === "paper" ? "text-paper/55" : "text-ink-muted",
           )}
         >
-          Trade Finance Market
+          Loan Marketplace
         </span>
       </span>
     </Link>

@@ -18,7 +18,7 @@ const SORTS = [
   { v: "score", l: "Best score" },
 ];
 const STATUSES = [
-  { v: "", l: "All deals" },
+  { v: "", l: "All loans" },
   { v: "open", l: "Open auctions" },
   { v: "funded", l: "Funded" },
   { v: "repaid", l: "Repaid" },
@@ -69,18 +69,18 @@ export function MarketplacePage() {
           <div>
             <span className="eyebrow text-brand">Marketplace</span>
             <h1 className="mt-2 font-display text-4xl font-semibold tracking-tightish">
-              Live trade finance deals
+              Live trade-finance loans
             </h1>
             <p className="mt-3 max-w-xl text-ink-soft">
               {isBusiness
-                ? "Track your funding requests and see how the open market prices trade deals."
-                : "Browse real trade deals, assess transparent risk and bid your rate."}
+                ? "Track your loan requests and see how the open market prices trade-finance loans."
+                : "Browse real trade-finance loans, assess transparent risk and bid your rate."}
             </p>
           </div>
           {isBusiness && (
             <Link to="/deals/new">
               <Button size="lg">
-                <Plus className="h-4 w-4" /> Apply for financing
+                <Plus className="h-4 w-4" /> Apply for a loan
               </Button>
             </Link>
           )}
@@ -93,7 +93,7 @@ export function MarketplacePage() {
           <div className="mb-10">
             <div className="mb-4 flex items-center gap-2">
               <Briefcase className="h-4 w-4 text-brand" />
-              <h2 className="font-display text-xl font-semibold">Your deals</h2>
+              <h2 className="font-display text-xl font-semibold">Your loans</h2>
               {myPending.length > 0 && (
                 <span className="rounded-full bg-paper-deep px-2.5 py-0.5 text-xs font-medium text-ink-muted">
                   {myPending.length} pending approval
@@ -133,7 +133,7 @@ export function MarketplacePage() {
               <input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search deals, goods or companies…"
+                placeholder="Search loans, goods or companies…"
                 className="h-11 w-full rounded-full border border-line bg-paper-dim pl-10 pr-4 text-sm text-ink placeholder:text-ink-muted focus:border-brand focus:outline-none"
               />
             </div>
@@ -190,7 +190,7 @@ export function MarketplacePage() {
         ) : deals && deals.length > 0 ? (
           <>
             <p className="mb-4 text-sm text-ink-muted">
-              {deals.length} {deals.length === 1 ? "deal" : "deals"}
+              {deals.length} {deals.length === 1 ? "loan" : "loans"}
             </p>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {deals.map((loan) => (
@@ -201,7 +201,7 @@ export function MarketplacePage() {
         ) : (
           <div className="rounded-2xl border border-dashed border-line-strong bg-paper-dim py-20 text-center">
             <SlidersHorizontal className="mx-auto h-8 w-8 text-ink-muted" />
-            <p className="mt-3 font-display text-lg font-medium text-ink">No deals match your filters</p>
+            <p className="mt-3 font-display text-lg font-medium text-ink">No loans match your filters</p>
             <p className="mt-1 text-sm text-ink-muted">Try clearing a filter or broadening your search.</p>
           </div>
         )}
