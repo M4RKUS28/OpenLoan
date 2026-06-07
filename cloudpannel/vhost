@@ -23,6 +23,15 @@ server {
     rewrite ^ https://$host$request_uri permanent;
   }
 
+  # ── Keycloak-Admin-Schalter ─────────────────────────────────────────────────
+  # Steuert den Zugriff von außen auf die Keycloak-Admin-Konsole + Admin-REST-API.
+  #   0 = gesperrt (Standard, liefert 404)
+  #   1 = Zugriff erlaubt  ← nur kurz auf 1 setzen, wenn du in die Konsole musst,
+  #                          danach wieder auf 0 stellen.
+  # Alternativ die beiden "location /admin" / "location /realms/master" Blöcke
+  # weiter unten komplett auskommentieren, um die Sperre ganz zu entfernen.
+  set $allow_kc_admin 0;
+
   location @reverse_proxy {
     # Set the site's reverse-proxy URL to: http://127.0.0.1:4568
     proxy_pass {{reverse_proxy_url}};
@@ -63,6 +72,23 @@ server {
   location ^~ /.well-known {
     auth_basic off;
     allow all;
+    try_files $uri @reverse_proxy;
+  }
+
+  # Keycloak-Admin-Konsole (UI) + Admin-REST-API liegen beide unter /admin.
+  # Nur erreichbar, wenn $allow_kc_admin oben auf 1 steht. Betrifft praktisch nur
+  # den Auth-Host — die App (openloan) hat keine /admin-Route.
+  # Zum komplett-Entsperren: diesen Block auskommentieren.
+  location /admin {
+    if ($allow_kc_admin = 0) { return 404; }
+    try_files $uri @reverse_proxy;
+  }
+
+  # Master-Realm wird nur fürs Admin-Konsolen-Login gebraucht — ebenfalls sperren.
+  # WICHTIG: nur /realms/master, NICHT /realms/app (das ist euer öffentliches
+  # Login und muss erreichbar bleiben).
+  location /realms/master {
+    if ($allow_kc_admin = 0) { return 404; }
     try_files $uri @reverse_proxy;
   }
 
