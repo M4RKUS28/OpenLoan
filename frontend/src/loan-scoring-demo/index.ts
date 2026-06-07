@@ -1,5 +1,6 @@
 export { inventLoanScoringInput } from "./inventLoanScoringInput";
 export { scoreLoanRequest } from "./scoreLoanRequest";
+export { mockExtractLoanApplicationFieldsFromDocuments } from "./mockDocumentExtraction";
 export { getBorrowerScoreRecord, BORROWER_SCORE_RECORDS } from "./mockBorrowerDb";
 export { buildCdiRequest, fetchCdiTransactionRiskEnrichment, resolveMockCdiBaseUrl } from "./cdiClient";
 export {

@@ -37,6 +37,11 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     cors_origins: list[str] = ["http://localhost", "http://localhost:5173"]
 
+    # Mock CDI API used by the backend-owned demo scoring flow.
+    mock_cdi_host: str = "localhost"
+    mock_cdi_port: int = 8000
+    mock_cdi_base_url: str | None = None
+
     @computed_field
     @property
     def database_url(self) -> str:
@@ -62,6 +67,11 @@ class Settings(BaseSettings):
     @property
     def minio_endpoint(self) -> str:
         return f"{self.minio_host}:{self.minio_port}"
+
+    @computed_field
+    @property
+    def resolved_mock_cdi_base_url(self) -> str:
+        return self.mock_cdi_base_url or f"http://{self.mock_cdi_host}:{self.mock_cdi_port}"
 
 
 settings = Settings()

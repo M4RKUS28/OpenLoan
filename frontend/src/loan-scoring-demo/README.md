@@ -1,5 +1,11 @@
 # Loan Scoring Demo
 
+Backend scoring is authoritative for the running app. Loan creation and deal
+detail pages do not call these frontend scoring functions; they submit scoring
+fields to the backend and display the persisted `credit_score` returned by the
+API. This folder remains as isolated demo/reference code plus the frontend mock
+document extraction helper.
+
 This is an isolated hackathon demo subsystem for scoring short-term Hong Kong SME supply-chain loan requests. It does not change existing app routes, API clients, backend services, database models, or package scripts.
 
 ## Two-Function Flow

@@ -3,6 +3,7 @@ from datetime import datetime
 from decimal import Decimal
 
 from sqlalchemy import (
+    JSON,
     DateTime,
     Float,
     ForeignKey,
@@ -15,7 +16,6 @@ from sqlalchemy import (
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.db.database import Base
-
 
 # Lifecycle of a deal on the marketplace.
 LOAN_STATUSES = (
@@ -68,9 +68,11 @@ class Loan(Base):
         String(30), nullable=False, default="pending_approval", index=True
     )
 
-    # Placeholder OpenLoan Score (real scoring engine is out of MVP scope)
+    # Headline score fields used by marketplace lists and grade badges.
     risk_score: Mapped[int | None] = mapped_column(Integer, nullable=True)
     risk_grade: Mapped[str | None] = mapped_column(String(2), nullable=True)
+    credit_score: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    loan_scoring_input: Mapped[dict | None] = mapped_column(JSON, nullable=True)
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False

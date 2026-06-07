@@ -1,0 +1,72 @@
+server {
+  listen 80;
+  listen [::]:80;
+  listen 443 quic;
+  listen 443 ssl;
+  listen [::]:443 quic;
+  listen [::]:443 ssl;
+  http2 on;
+  http3 off;
+  {{ssl_certificate_key}}
+  {{ssl_certificate}}
+  # Both the app and the Keycloak subdomain are served by the same Docker nginx
+  # (which routes by Host / server_name). The TLS cert must therefore cover BOTH
+  # names — add auth.openloan.m4rkus28.de as an additional domain to this
+  # CloudPanel site and (re)issue the Let's Encrypt cert so it has both SANs.
+  server_name openloan.m4rkus28.de auth.openloan.m4rkus28.de;
+  {{root}}
+
+  {{nginx_access_log}}
+  {{nginx_error_log}}
+
+  if ($scheme != "https") {
+    rewrite ^ https://$host$request_uri permanent;
+  }
+
+  location @reverse_proxy {
+    # Set the site's reverse-proxy URL to: http://127.0.0.1:4568
+    proxy_pass {{reverse_proxy_url}};
+    proxy_http_version 1.1;
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header X-Forwarded-Server $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    # $scheme is "https" here (after the redirect above) — the Docker nginx
+    # forwards this value on to Keycloak so it builds https issuer/redirect URLs.
+    proxy_set_header X-Forwarded-Proto $scheme;
+    # Preserve the original host so the Docker nginx can pick the right
+    # server_name (openloan -> app, auth.openloan -> keycloak).
+    proxy_set_header Host $host;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "Upgrade";
+    proxy_ssl_server_name on;
+    proxy_ssl_name $host;
+    proxy_pass_request_headers on;
+    proxy_max_temp_file_size 0;
+    proxy_connect_timeout 900;
+    proxy_send_timeout 900;
+    proxy_read_timeout 900;
+    proxy_buffer_size 128k;
+    proxy_buffers 4 256k;
+    proxy_busy_buffers_size 256k;
+    proxy_temp_file_write_size 256k;
+  }
+
+  {{settings}}
+
+  include /etc/nginx/global_settings;
+
+  add_header Cache-Control no-transform;
+
+  index index.html;
+
+  location ^~ /.well-known {
+    auth_basic off;
+    allow all;
+    try_files $uri @reverse_proxy;
+  }
+
+  location / {
+    try_files $uri @reverse_proxy;
+  }
+}
