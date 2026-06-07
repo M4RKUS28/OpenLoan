@@ -54,7 +54,12 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:24.0
     restart: unless-stopped
-    command: start
+    command: start --import-realm
+    volumes:
+      # Imported only if the realm doesn't already exist (idempotent). If your
+      # prod realm is already provisioned, the import is skipped — update the
+      # redirect URIs in the Keycloak admin console instead.
+      - ./keycloak/realm-app.json:/opt/keycloak/data/import/realm-app.json:ro
     environment:
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://postgres:5432/${KEYCLOAK_DB}
@@ -122,12 +127,14 @@ services:
   nginx:
     image: nginx:alpine
     restart: unless-stopped
+    # Bound to localhost — CloudPanel (on this host) terminates TLS and
+    # reverse-proxies here over plain HTTP.
     ports:
-      - "80:80"
-      - "443:443"
+      - "127.0.0.1:4568:4568"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      # Only the prod config; the dev override shadows this target with dev.conf.
+      - ./nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
       - frontend
       - backend
