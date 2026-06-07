@@ -1,0 +1,876 @@
+[
+  {
+    "_example_name": "classic_shop_inventory_purchase",
+    "scoring_input": {
+      "request_id": "loanreq_demo_00MIF4NO",
+      "borrower_id": "brw_001",
+      "loan_request": {
+        "loan_amount_hkd": 420000,
+        "loan_duration_days": 60,
+        "expected_repayment_source": "marketplace_sales"
+      },
+      "transaction": {
+        "purchase_order": {
+          "po_number": "PO-DEMO-00MIF4NO",
+          "po_date": "2026-05-22",
+          "po_value_hkd": 600000
+        },
+        "invoice": {
+          "invoice_number": "INV-DEMO-00MIF4NO2",
+          "invoice_date": "2026-05-25",
+          "invoice_value_hkd": 600000
+        },
+        "supplier": {
+          "supplier_name": "Shenzhen Pearl Electronics Co Ltd",
+          "supplier_country": "CN",
+          "supplier_registration_id": "CN-4I9GYG-00MI"
+        },
+        "goods": {
+          "product_type": "consumer_electronics_accessories",
+          "description": "Wireless chargers, phone cases, and USB-C accessories for Hong Kong marketplace resale",
+          "quantity": 12000,
+          "declared_goods_value_hkd": 600000
+        },
+        "shipment": {
+          "transport_mode": "road",
+          "origin_port": "Yantian",
+          "destination_port": "Hong Kong",
+          "expected_departure_date": "2026-06-13",
+          "expected_arrival_date": "2026-06-18",
+          "bill_of_lading_number": "BL-CN-HKG-00MIF4NO",
+          "container_numbers": [
+            "TEMU8873028"
+          ]
+        },
+        "collateral": {
+          "type": "insured_goods",
+          "value_hkd": 600000,
+          "insurance_policy_number": "INS-HKG-00MIF4NO"
+        },
+        "sales_context": {
+          "expected_sales_channel": "marketplace",
+          "primary_marketplace": "HKTVmall",
+          "expected_sell_through_days": 53
+        }
+      },
+      "cdi_consent": {
+        "consent_id": "consent_demo_0000I5DRWI",
+        "scopes": [
+          "trade_records",
+          "cargo_records",
+          "customs_declarations",
+          "supplier_history",
+          "sales_channel_summary"
+        ]
+      }
+    },
+    "result": {
+      "request_id": "loanreq_demo_00MIF4NO",
+      "borrower_id": "brw_001",
+      "total_score": 89.16,
+      "borrower_score": 41.88,
+      "transaction_score": 47.28,
+      "showstopper": null,
+      "borrower_components": [
+        {
+          "key": "repayment_history",
+          "label": "Past repayment history on our platform",
+          "weight_percent": 20,
+          "raw_score_0_100": 96,
+          "weighted_points": 19.2
+        },
+        {
+          "key": "current_platform_exposure",
+          "label": "Current exposure on our platform",
+          "weight_percent": 10,
+          "raw_score_0_100": 90,
+          "weighted_points": 9
+        },
+        {
+          "key": "business_age_continuity",
+          "label": "Business age and operating continuity",
+          "weight_percent": 5,
+          "raw_score_0_100": 88,
+          "weighted_points": 4.4
+        },
+        {
+          "key": "legal_compliance",
+          "label": "Legal/compliance status",
+          "weight_percent": 4,
+          "raw_score_0_100": 95,
+          "weighted_points": 3.8
+        },
+        {
+          "key": "kyb_consistency",
+          "label": "Basic borrower identity and KYB consistency",
+          "weight_percent": 2,
+          "raw_score_0_100": 96,
+          "weighted_points": 1.92
+        },
+        {
+          "key": "cdi_activity_continuity",
+          "label": "CDI-observed business activity continuity",
+          "weight_percent": 4,
+          "raw_score_0_100": 89,
+          "weighted_points": 3.56
+        }
+      ],
+      "transaction_components": [
+        {
+          "key": "loan_to_invoice_reasonableness",
+          "label": "Loan-to-invoice / advance-rate reasonableness",
+          "weight_percent": 8,
+          "raw_score_0_100": 85,
+          "weighted_points": 6.8
+        },
+        {
+          "key": "collateral_recovery_quality",
+          "label": "Collateral/recovery quality",
+          "weight_percent": 10,
+          "raw_score_0_100": 75,
+          "weighted_points": 7.5
+        },
+        {
+          "key": "platform_order_normality",
+          "label": "Order normality based on our platform history",
+          "weight_percent": 7,
+          "raw_score_0_100": 100,
+          "weighted_points": 7
+        },
+        {
+          "key": "basic_transaction_completeness",
+          "label": "Basic transaction completeness",
+          "weight_percent": 5,
+          "raw_score_0_100": 100,
+          "weighted_points": 5
+        },
+        {
+          "key": "verified_trade_shipment",
+          "label": "Verified trade/shipment data",
+          "weight_percent": 14,
+          "raw_score_0_100": 85,
+          "weighted_points": 11.9
+        },
+        {
+          "key": "supplier_reliability",
+          "label": "Supplier reliability",
+          "weight_percent": 4,
+          "raw_score_0_100": 78,
+          "weighted_points": 3.12
+        },
+        {
+          "key": "cdi_order_normality",
+          "label": "CDI-based order normality",
+          "weight_percent": 4,
+          "raw_score_0_100": 86,
+          "weighted_points": 3.44
+        },
+        {
+          "key": "buyer_channel_concentration",
+          "label": "Buyer/customer/channel concentration risk",
+          "weight_percent": 3,
+          "raw_score_0_100": 84,
+          "weighted_points": 2.52
+        }
+      ]
+    }
+  },
+  {
+    "_example_name": "medium_apparel_retailer_transaction",
+    "scoring_input": {
+      "request_id": "loanreq_demo_00L04MTL",
+      "borrower_id": "brw_002",
+      "loan_request": {
+        "loan_amount_hkd": 268000,
+        "loan_duration_days": 75,
+        "expected_repayment_source": "inventory_sales"
+      },
+      "transaction": {
+        "purchase_order": {
+          "po_number": "PO-DEMO-00L04MTL",
+          "po_date": "2026-05-22",
+          "po_value_hkd": 330000
+        },
+        "invoice": {
+          "invoice_number": "INV-DEMO-00L04MTL5",
+          "invoice_date": "2026-05-25",
+          "invoice_value_hkd": 320000
+        },
+        "supplier": {
+          "supplier_name": "Ho Chi Minh Fashion Manufacturing JSC",
+          "supplier_country": "VN",
+          "supplier_registration_id": "VN-63EEEP-00L0"
+        },
+        "goods": {
+          "product_type": "apparel_fashion_goods",
+          "description": "Summer apparel and casualwear inventory for Hong Kong retail channels",
+          "quantity": 3800,
+          "declared_goods_value_hkd": 320000
+        },
+        "shipment": {
+          "transport_mode": "sea",
+          "origin_port": "Hai Phong",
+          "destination_port": "Hong Kong",
+          "expected_departure_date": "2026-06-15",
+          "expected_arrival_date": "2026-06-29",
+          "bill_of_lading_number": "BL-VN-HKG-00L04MTL",
+          "container_numbers": [
+            "TEMU8868274"
+          ]
+        },
+        "collateral": {
+          "type": "inventory",
+          "value_hkd": 200000
+        },
+        "sales_context": {
+          "expected_sales_channel": "mixed",
+          "expected_sell_through_days": 68
+        }
+      },
+      "cdi_consent": {
+        "consent_id": "consent_demo_0001QVWCBB",
+        "scopes": [
+          "trade_records",
+          "cargo_records",
+          "customs_declarations",
+          "supplier_history",
+          "sales_channel_summary"
+        ]
+      }
+    },
+    "result": {
+      "request_id": "loanreq_demo_00L04MTL",
+      "borrower_id": "brw_002",
+      "total_score": 72.33,
+      "borrower_score": 33.15,
+      "transaction_score": 39.18,
+      "showstopper": null,
+      "borrower_components": [
+        {
+          "key": "repayment_history",
+          "label": "Past repayment history on our platform",
+          "weight_percent": 20,
+          "raw_score_0_100": 76,
+          "weighted_points": 15.2
+        },
+        {
+          "key": "current_platform_exposure",
+          "label": "Current exposure on our platform",
+          "weight_percent": 10,
+          "raw_score_0_100": 62,
+          "weighted_points": 6.2
+        },
+        {
+          "key": "business_age_continuity",
+          "label": "Business age and operating continuity",
+          "weight_percent": 5,
+          "raw_score_0_100": 75,
+          "weighted_points": 3.75
+        },
+        {
+          "key": "legal_compliance",
+          "label": "Legal/compliance status",
+          "weight_percent": 4,
+          "raw_score_0_100": 88,
+          "weighted_points": 3.52
+        },
+        {
+          "key": "kyb_consistency",
+          "label": "Basic borrower identity and KYB consistency",
+          "weight_percent": 2,
+          "raw_score_0_100": 84,
+          "weighted_points": 1.68
+        },
+        {
+          "key": "cdi_activity_continuity",
+          "label": "CDI-observed business activity continuity",
+          "weight_percent": 4,
+          "raw_score_0_100": 70,
+          "weighted_points": 2.8
+        }
+      ],
+      "transaction_components": [
+        {
+          "key": "loan_to_invoice_reasonableness",
+          "label": "Loan-to-invoice / advance-rate reasonableness",
+          "weight_percent": 8,
+          "raw_score_0_100": 65,
+          "weighted_points": 5.2
+        },
+        {
+          "key": "collateral_recovery_quality",
+          "label": "Collateral/recovery quality",
+          "weight_percent": 10,
+          "raw_score_0_100": 40,
+          "weighted_points": 4
+        },
+        {
+          "key": "platform_order_normality",
+          "label": "Order normality based on our platform history",
+          "weight_percent": 7,
+          "raw_score_0_100": 100,
+          "weighted_points": 7
+        },
+        {
+          "key": "basic_transaction_completeness",
+          "label": "Basic transaction completeness",
+          "weight_percent": 5,
+          "raw_score_0_100": 100,
+          "weighted_points": 5
+        },
+        {
+          "key": "verified_trade_shipment",
+          "label": "Verified trade/shipment data",
+          "weight_percent": 14,
+          "raw_score_0_100": 78,
+          "weighted_points": 10.92
+        },
+        {
+          "key": "supplier_reliability",
+          "label": "Supplier reliability",
+          "weight_percent": 4,
+          "raw_score_0_100": 66,
+          "weighted_points": 2.64
+        },
+        {
+          "key": "cdi_order_normality",
+          "label": "CDI-based order normality",
+          "weight_percent": 4,
+          "raw_score_0_100": 73,
+          "weighted_points": 2.92
+        },
+        {
+          "key": "buyer_channel_concentration",
+          "label": "Buyer/customer/channel concentration risk",
+          "weight_percent": 3,
+          "raw_score_0_100": 50,
+          "weighted_points": 1.5
+        }
+      ]
+    }
+  },
+  {
+    "_example_name": "weak_thin_file_risky_order",
+    "scoring_input": {
+      "request_id": "loanreq_demo_003EIOKF",
+      "borrower_id": "brw_003",
+      "loan_request": {
+        "loan_amount_hkd": 400000,
+        "loan_duration_days": 90,
+        "expected_repayment_source": "inventory_sales"
+      },
+      "transaction": {
+        "purchase_order": {
+          "po_number": "PO-DEMO-003EIOKF",
+          "po_date": "2026-05-27",
+          "po_value_hkd": 430000
+        },
+        "invoice": {
+          "invoice_number": "INV-DEMO-003EIOKF8",
+          "invoice_date": "2026-05-28",
+          "invoice_value_hkd": 420000
+        },
+        "supplier": {
+          "supplier_name": "Dongguan Smart Living Products Co Ltd",
+          "supplier_country": "CN",
+          "supplier_registration_id": "CN-5EAAHD-003E"
+        },
+        "goods": {
+          "product_type": "smart_home_devices",
+          "description": "Smart home hubs and connected sensors for resale",
+          "quantity": 2500,
+          "declared_goods_value_hkd": 420000
+        },
+        "shipment": {
+          "transport_mode": "sea",
+          "origin_port": "Yantian",
+          "destination_port": "Hong Kong",
+          "expected_departure_date": "2026-06-15",
+          "expected_arrival_date": "2026-06-24",
+          "bill_of_lading_number": "BL-CN-HKG-003EIOKF",
+          "container_numbers": [
+            "TEMU8819395"
+          ]
+        },
+        "collateral": {
+          "type": "none",
+          "value_hkd": 0
+        },
+        "sales_context": {
+          "expected_sales_channel": "own_website",
+          "expected_sell_through_days": 83
+        }
+      },
+      "cdi_consent": {
+        "consent_id": "consent_demo_0000ZFSOLD",
+        "scopes": [
+          "trade_records",
+          "cargo_records",
+          "customs_declarations",
+          "supplier_history",
+          "sales_channel_summary"
+        ]
+      }
+    },
+    "result": {
+      "request_id": "loanreq_demo_003EIOKF",
+      "borrower_id": "brw_003",
+      "total_score": 47.28,
+      "borrower_score": 22.88,
+      "transaction_score": 24.4,
+      "showstopper": null,
+      "borrower_components": [
+        {
+          "key": "repayment_history",
+          "label": "Past repayment history on our platform",
+          "weight_percent": 20,
+          "raw_score_0_100": 48,
+          "weighted_points": 9.6
+        },
+        {
+          "key": "current_platform_exposure",
+          "label": "Current exposure on our platform",
+          "weight_percent": 10,
+          "raw_score_0_100": 45,
+          "weighted_points": 4.5
+        },
+        {
+          "key": "business_age_continuity",
+          "label": "Business age and operating continuity",
+          "weight_percent": 5,
+          "raw_score_0_100": 52,
+          "weighted_points": 2.6
+        },
+        {
+          "key": "legal_compliance",
+          "label": "Legal/compliance status",
+          "weight_percent": 4,
+          "raw_score_0_100": 72,
+          "weighted_points": 2.88
+        },
+        {
+          "key": "kyb_consistency",
+          "label": "Basic borrower identity and KYB consistency",
+          "weight_percent": 2,
+          "raw_score_0_100": 65,
+          "weighted_points": 1.3
+        },
+        {
+          "key": "cdi_activity_continuity",
+          "label": "CDI-observed business activity continuity",
+          "weight_percent": 4,
+          "raw_score_0_100": 50,
+          "weighted_points": 2
+        }
+      ],
+      "transaction_components": [
+        {
+          "key": "loan_to_invoice_reasonableness",
+          "label": "Loan-to-invoice / advance-rate reasonableness",
+          "weight_percent": 8,
+          "raw_score_0_100": 40,
+          "weighted_points": 3.2
+        },
+        {
+          "key": "collateral_recovery_quality",
+          "label": "Collateral/recovery quality",
+          "weight_percent": 10,
+          "raw_score_0_100": 20,
+          "weighted_points": 2
+        },
+        {
+          "key": "platform_order_normality",
+          "label": "Order normality based on our platform history",
+          "weight_percent": 7,
+          "raw_score_0_100": 30,
+          "weighted_points": 2.1
+        },
+        {
+          "key": "basic_transaction_completeness",
+          "label": "Basic transaction completeness",
+          "weight_percent": 5,
+          "raw_score_0_100": 100,
+          "weighted_points": 5
+        },
+        {
+          "key": "verified_trade_shipment",
+          "label": "Verified trade/shipment data",
+          "weight_percent": 14,
+          "raw_score_0_100": 52,
+          "weighted_points": 7.28
+        },
+        {
+          "key": "supplier_reliability",
+          "label": "Supplier reliability",
+          "weight_percent": 4,
+          "raw_score_0_100": 43,
+          "weighted_points": 1.72
+        },
+        {
+          "key": "cdi_order_normality",
+          "label": "CDI-based order normality",
+          "weight_percent": 4,
+          "raw_score_0_100": 49,
+          "weighted_points": 1.96
+        },
+        {
+          "key": "buyer_channel_concentration",
+          "label": "Buyer/customer/channel concentration risk",
+          "weight_percent": 3,
+          "raw_score_0_100": 38,
+          "weighted_points": 1.14
+        }
+      ]
+    }
+  },
+  {
+    "_example_name": "large_plausible_wholesale_shipment",
+    "scoring_input": {
+      "request_id": "loanreq_demo_00CCSKIB",
+      "borrower_id": "brw_004",
+      "loan_request": {
+        "loan_amount_hkd": 900000,
+        "loan_duration_days": 75,
+        "expected_repayment_source": "buyer_receivable"
+      },
+      "transaction": {
+        "purchase_order": {
+          "po_number": "PO-DEMO-00CCSKIB",
+          "po_date": "2026-05-27",
+          "po_value_hkd": 1380000
+        },
+        "invoice": {
+          "invoice_number": "INV-DEMO-00CCSKIB5",
+          "invoice_date": "2026-05-30",
+          "invoice_value_hkd": 1350000
+        },
+        "supplier": {
+          "supplier_name": "Penang Household Manufacturing Sdn Bhd",
+          "supplier_country": "MY",
+          "supplier_registration_id": "MY-1CH262-00CC"
+        },
+        "goods": {
+          "product_type": "wholesale_household_goods",
+          "description": "Kitchenware and household goods for distributor resale",
+          "quantity": 9000,
+          "declared_goods_value_hkd": 1350000
+        },
+        "shipment": {
+          "transport_mode": "sea",
+          "origin_port": "Port Klang",
+          "destination_port": "Hong Kong",
+          "expected_departure_date": "2026-06-09",
+          "expected_arrival_date": "2026-06-25",
+          "bill_of_lading_number": "BL-MY-HKG-00CCSKIB",
+          "container_numbers": [
+            "TEMU8877353"
+          ]
+        },
+        "collateral": {
+          "type": "warehouse_receipt",
+          "value_hkd": 1350000,
+          "warehouse_receipt_number": "WHR-HKG-00CCSKIB"
+        },
+        "sales_context": {
+          "expected_sales_channel": "distributor",
+          "expected_sell_through_days": 68
+        }
+      },
+      "cdi_consent": {
+        "consent_id": "consent_demo_00008RWMTX",
+        "scopes": [
+          "trade_records",
+          "cargo_records",
+          "customs_declarations",
+          "supplier_history",
+          "sales_channel_summary"
+        ]
+      }
+    },
+    "result": {
+      "request_id": "loanreq_demo_00CCSKIB",
+      "borrower_id": "brw_004",
+      "total_score": 82.08,
+      "borrower_score": 37.66,
+      "transaction_score": 44.42,
+      "showstopper": null,
+      "borrower_components": [
+        {
+          "key": "repayment_history",
+          "label": "Past repayment history on our platform",
+          "weight_percent": 20,
+          "raw_score_0_100": 88,
+          "weighted_points": 17.6
+        },
+        {
+          "key": "current_platform_exposure",
+          "label": "Current exposure on our platform",
+          "weight_percent": 10,
+          "raw_score_0_100": 70,
+          "weighted_points": 7
+        },
+        {
+          "key": "business_age_continuity",
+          "label": "Business age and operating continuity",
+          "weight_percent": 5,
+          "raw_score_0_100": 86,
+          "weighted_points": 4.3
+        },
+        {
+          "key": "legal_compliance",
+          "label": "Legal/compliance status",
+          "weight_percent": 4,
+          "raw_score_0_100": 92,
+          "weighted_points": 3.68
+        },
+        {
+          "key": "kyb_consistency",
+          "label": "Basic borrower identity and KYB consistency",
+          "weight_percent": 2,
+          "raw_score_0_100": 90,
+          "weighted_points": 1.8
+        },
+        {
+          "key": "cdi_activity_continuity",
+          "label": "CDI-observed business activity continuity",
+          "weight_percent": 4,
+          "raw_score_0_100": 82,
+          "weighted_points": 3.28
+        }
+      ],
+      "transaction_components": [
+        {
+          "key": "loan_to_invoice_reasonableness",
+          "label": "Loan-to-invoice / advance-rate reasonableness",
+          "weight_percent": 8,
+          "raw_score_0_100": 85,
+          "weighted_points": 6.8
+        },
+        {
+          "key": "collateral_recovery_quality",
+          "label": "Collateral/recovery quality",
+          "weight_percent": 10,
+          "raw_score_0_100": 85,
+          "weighted_points": 8.5
+        },
+        {
+          "key": "platform_order_normality",
+          "label": "Order normality based on our platform history",
+          "weight_percent": 7,
+          "raw_score_0_100": 100,
+          "weighted_points": 7
+        },
+        {
+          "key": "basic_transaction_completeness",
+          "label": "Basic transaction completeness",
+          "weight_percent": 5,
+          "raw_score_0_100": 100,
+          "weighted_points": 5
+        },
+        {
+          "key": "verified_trade_shipment",
+          "label": "Verified trade/shipment data",
+          "weight_percent": 14,
+          "raw_score_0_100": 66,
+          "weighted_points": 9.24
+        },
+        {
+          "key": "supplier_reliability",
+          "label": "Supplier reliability",
+          "weight_percent": 4,
+          "raw_score_0_100": 74,
+          "weighted_points": 2.96
+        },
+        {
+          "key": "cdi_order_normality",
+          "label": "CDI-based order normality",
+          "weight_percent": 4,
+          "raw_score_0_100": 75,
+          "weighted_points": 3
+        },
+        {
+          "key": "buyer_channel_concentration",
+          "label": "Buyer/customer/channel concentration risk",
+          "weight_percent": 3,
+          "raw_score_0_100": 64,
+          "weighted_points": 1.92
+        }
+      ]
+    }
+  },
+  {
+    "_example_name": "hard_stop_duplicate_invoice_demo",
+    "scoring_input": {
+      "request_id": "loanreq_demo_01CYZ8BJ",
+      "borrower_id": "brw_005",
+      "loan_request": {
+        "loan_amount_hkd": 300000,
+        "loan_duration_days": 60,
+        "expected_repayment_source": "buyer_receivable"
+      },
+      "transaction": {
+        "purchase_order": {
+          "po_number": "PO-DEMO-01CYZ8BJ",
+          "po_date": "2026-05-24",
+          "po_value_hkd": 450000
+        },
+        "invoice": {
+          "invoice_number": "INV-DEMO-01CYZ8BJ9",
+          "invoice_date": "2026-05-25",
+          "invoice_value_hkd": 440000
+        },
+        "supplier": {
+          "supplier_name": "Taichung Commercial Kitchen Equipment Co Ltd",
+          "supplier_country": "TW",
+          "supplier_registration_id": "TW-70JBS3-01CY"
+        },
+        "goods": {
+          "product_type": "restaurant_equipment",
+          "description": "Commercial induction cookers and stainless-steel kitchen fixtures",
+          "quantity": 240,
+          "declared_goods_value_hkd": 440000
+        },
+        "shipment": {
+          "transport_mode": "sea",
+          "origin_port": "Kaohsiung",
+          "destination_port": "Hong Kong",
+          "expected_departure_date": "2026-06-15",
+          "expected_arrival_date": "2026-06-25",
+          "bill_of_lading_number": "BL-TW-HKG-01CYZ8BJ",
+          "container_numbers": [
+            "TEMU8979066"
+          ]
+        },
+        "collateral": {
+          "type": "insured_goods",
+          "value_hkd": 440000,
+          "insurance_policy_number": "INS-HKG-01CYZ8BJ"
+        },
+        "sales_context": {
+          "expected_sales_channel": "distributor",
+          "expected_sell_through_days": 53
+        }
+      },
+      "cdi_consent": {
+        "consent_id": "consent_demo_0001MBADMP",
+        "scopes": [
+          "trade_records",
+          "cargo_records",
+          "customs_declarations",
+          "supplier_history",
+          "sales_channel_summary"
+        ]
+      }
+    },
+    "result": {
+      "request_id": "loanreq_demo_01CYZ8BJ",
+      "borrower_id": "brw_005",
+      "total_score": 66.65,
+      "borrower_score": 36.56,
+      "transaction_score": 30.09,
+      "showstopper": "Invoice appears to have been previously financed or duplicated in trade records.",
+      "borrower_components": [
+        {
+          "key": "repayment_history",
+          "label": "Past repayment history on our platform",
+          "weight_percent": 20,
+          "raw_score_0_100": 82,
+          "weighted_points": 16.4
+        },
+        {
+          "key": "current_platform_exposure",
+          "label": "Current exposure on our platform",
+          "weight_percent": 10,
+          "raw_score_0_100": 78,
+          "weighted_points": 7.8
+        },
+        {
+          "key": "business_age_continuity",
+          "label": "Business age and operating continuity",
+          "weight_percent": 5,
+          "raw_score_0_100": 80,
+          "weighted_points": 4
+        },
+        {
+          "key": "legal_compliance",
+          "label": "Legal/compliance status",
+          "weight_percent": 4,
+          "raw_score_0_100": 90,
+          "weighted_points": 3.6
+        },
+        {
+          "key": "kyb_consistency",
+          "label": "Basic borrower identity and KYB consistency",
+          "weight_percent": 2,
+          "raw_score_0_100": 86,
+          "weighted_points": 1.72
+        },
+        {
+          "key": "cdi_activity_continuity",
+          "label": "CDI-observed business activity continuity",
+          "weight_percent": 4,
+          "raw_score_0_100": 76,
+          "weighted_points": 3.04
+        }
+      ],
+      "transaction_components": [
+        {
+          "key": "loan_to_invoice_reasonableness",
+          "label": "Loan-to-invoice / advance-rate reasonableness",
+          "weight_percent": 8,
+          "raw_score_0_100": 85,
+          "weighted_points": 6.8
+        },
+        {
+          "key": "collateral_recovery_quality",
+          "label": "Collateral/recovery quality",
+          "weight_percent": 10,
+          "raw_score_0_100": 75,
+          "weighted_points": 7.5
+        },
+        {
+          "key": "platform_order_normality",
+          "label": "Order normality based on our platform history",
+          "weight_percent": 7,
+          "raw_score_0_100": 100,
+          "weighted_points": 7
+        },
+        {
+          "key": "basic_transaction_completeness",
+          "label": "Basic transaction completeness",
+          "weight_percent": 5,
+          "raw_score_0_100": 100,
+          "weighted_points": 5
+        },
+        {
+          "key": "verified_trade_shipment",
+          "label": "Verified trade/shipment data",
+          "weight_percent": 14,
+          "raw_score_0_100": 16,
+          "weighted_points": 2.24
+        },
+        {
+          "key": "supplier_reliability",
+          "label": "Supplier reliability",
+          "weight_percent": 4,
+          "raw_score_0_100": 17,
+          "weighted_points": 0.68
+        },
+        {
+          "key": "cdi_order_normality",
+          "label": "CDI-based order normality",
+          "weight_percent": 4,
+          "raw_score_0_100": 9,
+          "weighted_points": 0.36
+        },
+        {
+          "key": "buyer_channel_concentration",
+          "label": "Buyer/customer/channel concentration risk",
+          "weight_percent": 3,
+          "raw_score_0_100": 17,
+          "weighted_points": 0.51
+        }
+      ]
+    }
+  }
+]

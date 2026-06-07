@@ -1,0 +1,122 @@
+[
+  {
+    "_example_name": "classic_shop_inventory_purchase",
+    "_description": "Strong electronics accessories inventory purchase for marketplace resale with insured-goods collateral.",
+    "borrower_id": "brw_001",
+    "loan_amount_hkd": 420000,
+    "loan_duration_days": 60,
+    "purchase_order_value_hkd": 600000,
+    "invoice_value_hkd": 600000,
+    "supplier_name": "Shenzhen Pearl Electronics Co Ltd",
+    "supplier_country": "CN",
+    "product_type": "consumer_electronics_accessories",
+    "goods_description": "Wireless chargers, phone cases, and USB-C accessories for Hong Kong marketplace resale",
+    "quantity": 12000,
+    "expected_delivery_days": 5,
+    "expected_repayment_source": "marketplace_sales",
+    "collateral": {
+      "type": "insured_goods",
+      "value_hkd": 600000
+    },
+    "sales_context": {
+      "expected_sales_channel": "marketplace",
+      "primary_marketplace": "HKTVmall"
+    },
+    "demo_scenario": "strong"
+  },
+  {
+    "_example_name": "medium_apparel_retailer_transaction",
+    "_description": "Medium apparel retailer order with inventory collateral and mixed online/offline sales.",
+    "borrower_id": "brw_002",
+    "loan_amount_hkd": 268000,
+    "loan_duration_days": 75,
+    "purchase_order_value_hkd": 330000,
+    "invoice_value_hkd": 320000,
+    "supplier_name": "Ho Chi Minh Fashion Manufacturing JSC",
+    "supplier_country": "VN",
+    "product_type": "apparel_fashion_goods",
+    "goods_description": "Summer apparel and casualwear inventory for Hong Kong retail channels",
+    "quantity": 3800,
+    "expected_delivery_days": 14,
+    "expected_repayment_source": "inventory_sales",
+    "collateral": {
+      "type": "inventory",
+      "value_hkd": 200000
+    },
+    "sales_context": {
+      "expected_sales_channel": "mixed"
+    },
+    "demo_scenario": "medium"
+  },
+  {
+    "_example_name": "weak_thin_file_risky_order",
+    "_description": "Thin-file borrower requesting a near-full advance on an order far above normal platform history.",
+    "borrower_id": "brw_003",
+    "loan_amount_hkd": 400000,
+    "loan_duration_days": 90,
+    "purchase_order_value_hkd": 430000,
+    "invoice_value_hkd": 420000,
+    "supplier_name": "Dongguan Smart Living Products Co Ltd",
+    "supplier_country": "CN",
+    "product_type": "smart_home_devices",
+    "goods_description": "Smart home hubs and connected sensors for resale",
+    "quantity": 2500,
+    "expected_delivery_days": 9,
+    "expected_repayment_source": "inventory_sales",
+    "collateral": {
+      "type": "none"
+    },
+    "sales_context": {
+      "expected_sales_channel": "own_website"
+    },
+    "demo_scenario": "weak"
+  },
+  {
+    "_example_name": "large_plausible_wholesale_shipment",
+    "_description": "Larger wholesale shipment for a good borrower, backed by warehouse receipt collateral.",
+    "borrower_id": "brw_004",
+    "loan_amount_hkd": 900000,
+    "loan_duration_days": 75,
+    "purchase_order_value_hkd": 1380000,
+    "invoice_value_hkd": 1350000,
+    "supplier_name": "Penang Household Manufacturing Sdn Bhd",
+    "supplier_country": "MY",
+    "product_type": "wholesale_household_goods",
+    "goods_description": "Kitchenware and household goods for distributor resale",
+    "quantity": 9000,
+    "expected_delivery_days": 16,
+    "expected_repayment_source": "buyer_receivable",
+    "collateral": {
+      "type": "warehouse_receipt",
+      "value_hkd": 1350000
+    },
+    "sales_context": {
+      "expected_sales_channel": "distributor"
+    },
+    "demo_scenario": "medium"
+  },
+  {
+    "_example_name": "hard_stop_duplicate_invoice_demo",
+    "_description": "Plausible catering-equipment transaction that deliberately generates an invoice number ending in 9 for CDI hard-stop demo.",
+    "borrower_id": "brw_005",
+    "loan_amount_hkd": 300000,
+    "loan_duration_days": 60,
+    "purchase_order_value_hkd": 450000,
+    "invoice_value_hkd": 440000,
+    "supplier_name": "Taichung Commercial Kitchen Equipment Co Ltd",
+    "supplier_country": "TW",
+    "product_type": "restaurant_equipment",
+    "goods_description": "Commercial induction cookers and stainless-steel kitchen fixtures",
+    "quantity": 240,
+    "expected_delivery_days": 10,
+    "expected_repayment_source": "buyer_receivable",
+    "collateral": {
+      "type": "insured_goods",
+      "value_hkd": 440000
+    },
+    "sales_context": {
+      "expected_sales_channel": "distributor"
+    },
+    "demo_scenario": "hard_stop"
+  }
+]
