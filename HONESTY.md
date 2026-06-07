@@ -1,102 +1,91 @@
 # HONESTY.md
 
-> Mandatory disclosure for the hackathon. This file lives at the root of the repository.
-> Judges cross-check it against our code and our technical video. Disclosed shortcuts are
-> not penalized — that is the point of this file.
+> Mandatory disclosure for the hackathon. This file lives at the root of your repository. Judges cross-check it against your code and your technical video.
+>
+> **The deal:** disclosed shortcuts are **not** penalized — that is the entire point of this file. Hidden ones are. Undisclosed pre-built code is heavily penalized, each undisclosed mock carries a small penalty, and a faked demo is heavily penalized. Telling the truth here costs you nothing.
 
 ---
 
 ## 1. Team — who did what
 
-Cross-check against `git shortlog -sn`.
+Judges compare this against `git shortlog -sn`, so keep it honest.
 
 | Member | GitHub handle | Main contributions |
 |---|---|---|
-| Markus Huber | `Markus Huber` | Full-stack: backend (FastAPI, SQLAlchemy), MCP server, infra (Docker, Nginx, Keycloak), frontend, seed |
-| Jonas Bela Hörter | `Jonas Bela Hörter` | Loan-scoring engine (`loan_scoring/`), mock-CDI integration, scoring UI, demo payloads |
-| ypxz | `ypxz` | Frontend changes (header, footer, logo, landing & page polish), this HONESTY file |
+| Markus Huber | `Markus Huber` | Full-stack implementation: backend, database, infrastructure, authentication, marketplace flow, MCP server, frontend integration |
+| Jonas Bela Hörter | `Jonas Bela Hörter` | Credit-scoring system, scoring model design, mock CDI integration, scoring UI, demo payloads and documentation |
+| ypxz | `ypxz` | Frontend polish, layout/header/footer/logo work, landing page and presentation-oriented UI cleanup |
 
 ---
 
 ## 2. What is fully working
 
-Features that run end-to-end on the live app with real data and real logic.
+Features that run end-to-end on the live app, with real data and real logic. Be specific: name the feature, what input it takes, what output it produces.
 
-- **Public marketplace** — `GET /v1/loans` with real server-side filtering (search, status,
-  industry, trade type, risk grade), sorting, and pagination against PostgreSQL. Browsable
-  signed-out.
-- **Deal detail** — `GET /v1/loans/{id}` returns the full trade description, company profile,
-  score breakdown, attached documents, and live bids.
-- **Post a deal** (business) — `POST /v1/loans` persists a new deal and runs the loan-scoring
-  engine on submission. New deals start `pending`.
-- **Loan-scoring engine** — a real, rules-based credit-scoring system
-  ([backend/src/services/loan_scoring/](backend/src/services/loan_scoring/)): borrower + transaction
-  components, weighted points, A–E grade, and "showstopper" hard-stops. It makes a live HTTP call to
-  a CDI enrichment service and folds the response into the score.
-- **Open auction / bidding** (lender) — `POST /v1/loans/{id}/bids` places real competing bids;
-  lowest rate leads; `POST .../bids/{id}/accept` lets the business accept a winning bid. Approve /
-  reject flow (`pending → open / rejected`) is real.
-- **MCP server** — a working Model Context Protocol Streamable-HTTP endpoint at `/mcp`
-  ([backend/src/api/mcp.py](backend/src/api/mcp.py)) exposing `list_auctions` and `get_auction`
-  tools backed by live marketplace data. Usable from MCP clients (Claude, MCP Inspector).
-- **Authentication** — real Keycloak (OIDC/PKCE on the client, JWT validated server-side against
-  Keycloak's JWKS in [backend/src/core/auth.py](backend/src/core/auth.py)). Reads public; writes
-  require a valid token.
-- **Document upload/download** — files stored in MinIO via presigned URLs.
-- **Dashboard & account-mode toggle** — your-deals / your-bids views; business/lender toggle
-  persisted in `localStorage`.
+- **Loan marketplace:** users can browse loan/deal records stored in the database. The frontend fetches loans from the backend and displays deal information, status, score, and related metadata.
+- **Loan detail view:** opening a loan/deal shows the stored loan information, company/trade description, credit score, grade, borrower-score components, transaction-score components, and showstopper status if present.
+- **Loan creation:** submitting a loan request creates a stored loan/deal record. The backend calculates the credit score at creation time and saves the score in the database.
+- **Credit-scoring engine:** the backend calculates a rules-based credit score from borrower and transaction datapoints. It produces borrower subtotal, transaction subtotal, total score, A–E grade, and individual weighted score components.
+- **Backend CDI-style enrichment call:** during scoring, the backend makes a real HTTP call to a CDI-style mock API service and uses the returned trade/shipment/supplier/channel signals in the transaction score.
+- **Bidding / auction flow:** lenders can place bids on open loan/deal records, and bid data is persisted and displayed.
+- **Authentication and protected writes:** the application uses real authentication for write actions where configured.
+- **Document upload UI:** the interface supports a document-upload-style flow for loan creation, although the actual document interpretation is mocked as described below.
 
 ---
 
 ## 3. What is mocked, stubbed, or hardcoded
 
-| What is faked | Where | Why we mocked it | What the real version would do |
+Every shortcut. Examples: a login that accepts any password, a payment that always succeeds, an "AI" that is an if/else, a database that is an in-memory dictionary, fake JSON returned instead of a real API call.
+
+**Undisclosed mocks carry a small penalty each. Anything you list here = free.**
+
+| What is faked | Where (file:line or folder) | Why we mocked it | What the real version would do |
 |---|---|---|---|
-| **CDI data source** — the scoring engine calls our own **Mock CDI API**, not the real HKMA CDI | [MOCK-CDI-API/](MOCK-CDI-API/), called via [cdi_client.py](backend/src/services/loan_scoring/cdi_client.py) | No access to live HKMA CDI in the hackathon | Call the real HKMA Commercial Data Interchange for consented banking/trade data |
-| **Borrower credit records** are a hardcoded in-memory dictionary (`brw_001`…) | [mock_borrower_db.py](backend/src/services/loan_scoring/mock_borrower_db.py) | No real borrower history/KYB data available | Look up real borrower history, repayment record and KYB from a datastore |
-| **Scoring inputs are "invented"** — a few user fields are expanded into a full trade dossier (PO, invoice, shipment, supplier, collateral) via deterministic heuristics | [invent.py](backend/src/services/loan_scoring/invent.py) | The post-a-deal form collects far less than the scoring model needs | Use real documents/data the borrower actually submits |
-| **Mock CDI risk signals** are generated from demo scenarios (`strong`/`medium`/`weak`/`hard_stop`), partly seeded/random | [mock_logic.py](MOCK-CDI-API/app/mock_logic.py) | To produce believable, varied demo scores | Return real risk signals derived from CDI data |
-| Marketplace is **pre-seeded** with demo companies, deals and bids | [seed.py](backend/src/services/seed.py) (via Alembic migration) | So the app is populated on first run | Data accumulates from real user activity |
-| Legacy placeholder formula `compute_score` still exists but is **superseded** by `loan_scoring` for new deals | [scoring.py](backend/src/services/scoring.py) | Earlier MVP scorer, kept during transition | Removed |
-| The score factor weights on the **/cdi** page are illustrative UI copy | [CDI.tsx](frontend/src/pages/CDI.tsx) | Explainer content, not live model output | Reflect the real model's weights |
+| Real HKMA CDI integration | `MOCK-CDI-API/`, backend CDI client in the loan-scoring service | We do not have access to the real HKMA Commercial Data Interchange during the hackathon | Call the real HKMA CDI with borrower consent and retrieve live commercial/trade/banking data |
+| CDI risk signals | `MOCK-CDI-API/` | The demo needs realistic shipment, supplier, order-normality, and channel-risk signals without live CDI access | Return actual risk signals derived from consented commercial data |
+| Borrower credit history | backend loan-scoring mock borrower DB / seeded borrower records | No real SME repayment or KYB history is available | Query real borrower repayment history, current exposure, KYB status, and compliance records |
+| Historical scoring data on seeded loans | database seed/mock data | Existing demo loans need score data for display before real users create loans | Use scores generated from real transaction and borrower history at creation time |
+| Transaction data completion | backend loan-scoring input invention/helper logic | The demo form collects fewer fields than a real underwriting workflow would require | Extract transaction data from real invoices, purchase orders, logistics documents, collateral records, and user-provided evidence |
+| Document extraction / “LLM extraction” | frontend/backend mock extraction helper for loan creation | We keep the upload-style UX but do not run OCR or an LLM | Parse uploaded documents with OCR/LLM/document AI and extract structured invoice, shipment, supplier, and collateral data |
+| Collateral verification | scoring rules and demo inputs | We cannot legally verify collateral, warehouse control, or insurance coverage in the demo | Verify collateral ownership, enforceability, insurance, warehouse receipts, and legal control |
+| Some company/public-register data | seeded data / hardcoded demo records | No live company-registry integration is included | Query official company registers, litigation/winding-up records, and compliance sources |
 
 ---
 
 ## 4. External APIs, services & data sources
 
-| Service / API / dataset | Used for | Real call or mocked? | Auth |
+Everything the project calls or pretends to call. Mark each as real or mocked.
+
+| Service / API / dataset | Used for | Real call or mocked? | Auth (sandbox / test key / none) |
 |---|---|---|---|
-| **Keycloak** | User auth (login, JWT, JWKS validation) | **Real** | Realm `app`, client `app-frontend` (PKCE) |
-| **PostgreSQL 16** | Primary datastore (companies, loans, bids, files) | **Real** | Local credentials via env |
-| **MinIO** | Object storage for deal documents (presigned upload/download) | **Real** | Local access/secret keys |
-| **Mock CDI API** (our own FastAPI service) | CDI-style trade/shipment/supplier risk signals for scoring | **Real HTTP call to a mocked service** — stands in for HKMA CDI | none (internal service) |
-| **HKMA CDI** (real) | Intended ultimate data source behind the mock | **Not connected** — simulated by the mock above | n/a |
-| **CargoX** | Trade-document / e-B/L signals (described on /cdi) | **Not integrated** — referenced/explained only | none |
-| **MCP server** (`/mcp`) | Exposing the marketplace to AI/MCP clients | **Real** (read-only tools) | none (public read) |
+| PostgreSQL | Primary datastore for loans/deals, bids, users/companies, and persisted credit scores | Real local service | Local credentials via environment variables |
+| Mock CDI API | CDI-style transaction enrichment for shipment, supplier, order-normality, and channel-risk scoring | Real HTTP call to a mocked service | None / internal service |
+| HKMA Commercial Data Interchange | Intended real-world source for consented commercial data | Not connected; represented by Mock CDI API | n/a |
+| Keycloak | Authentication / identity provider where configured | Real local service | Local realm/client configuration |
+| MinIO | Document/object storage where configured | Real local service | Local access/secret keys |
+| MCP endpoint | Exposes selected marketplace data to MCP clients where configured | Real endpoint backed by app data | None / public read, depending on configuration |
 
 ---
 
 ## 5. Pre-existing code
 
-All application code in this repo was written during the hackathon window
-(first commit 2026-06-06, this submission 2026-06-07).
+Anything written **before** kickoff that we brought into this project: prior personal projects, forked open-source code, templates, boilerplate, internal libraries.
 
-Standard scaffolding/dependencies used as-is (not hand-written during the hack): React + Vite +
-Tailwind project template, a shadcn-style UI kit, FastAPI / SQLAlchemy / Alembic boilerplate, and
-the official Keycloak / PostgreSQL / MinIO / Nginx Docker images. The MCP endpoint implements the
-public Model Context Protocol spec by hand (no MCP SDK). Landing-page photography is hotlinked from
-Wikimedia Commons.
+**Undisclosed pre-built code is heavily penalized. Anything you list here = free.**
+
+"All code in this repo was written during the hackathon window."
 
 ---
 
 ## 6. Known limitations & next steps
 
-- **CDI is mocked.** The scoring engine and its CDI integration are real, but the data behind it
-  comes from our own Mock CDI API and a hardcoded borrower database — not live HKMA CDI.
-- **Scoring inputs are partly invented** from minimal form data, so demo scores are plausible rather
-  than fully evidence-backed.
-- **CargoX is not integrated** — it is referenced on the explainer page only.
-- **Not a regulated product.** Figures are illustrative; no real KYC/AML, settlement, or escrow.
-- **Keycloak realm/client must be configured manually on first run** (see README) — not yet automated.
-- **Legacy `scoring.py`** should be removed now that `loan_scoring` is the live path.
-- **MCP server is read-only and unauthenticated** — no bidding/write tools yet.
+What we would build next, and the weak spots we already know about. Naming these honestly is a strength, not a flaw.
+
+- Replace the Mock CDI API with a real HKMA CDI integration using proper borrower consent and production authentication.
+- Replace hardcoded/seeded borrower history with real repayment, exposure, KYB, and compliance data.
+- Replace fake document extraction with real OCR/LLM/document-AI extraction from invoices, purchase orders, shipment records, and collateral documents.
+- Add real legal and operational collateral verification.
+- Add production-grade KYC/AML, sanctions screening, settlement, escrow, and regulatory controls before any real lending use.
+- Improve the scoring model with validation against historical default/loss data instead of hand-designed weights.
+- Remove or clearly separate any remaining legacy/demo scoring paths once the backend-owned scoring flow is fully authoritative.
+```
