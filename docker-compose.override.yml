@@ -10,6 +10,10 @@ services:
       - "9000:9000"   # API
       - "9001:9001"   # Console UI
 
+  mock-cdi-api:
+    ports:
+      - "${MOCK_CDI_PUBLIC_PORT:-8001}:8000"
+
   keycloak:
     command: start-dev --import-realm
     environment:

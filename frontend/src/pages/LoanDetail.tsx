@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
+  AlertTriangle,
   ArrowLeft,
   ArrowRight,
   Building2,
@@ -26,7 +27,8 @@ import { Button } from "@/components/ui/Button";
 import { GradeBadge, StatusBadge } from "@/components/ui/Badge";
 import { ScoreGauge } from "@/components/ui/ScoreGauge";
 import { BidDialog } from "@/components/BidDialog";
-import type { Bid, LoanDetail as LoanDetailT } from "@/lib/api";
+import type { Bid, CreditScore, LoanDetail as LoanDetailT } from "@/lib/api";
+import type { ScoreComponent } from "@/loan-scoring-demo";
 import {
   formatBytes,
   formatCurrency,
@@ -75,6 +77,8 @@ function DetailView({ loan }: { loan: LoanDetailT }) {
   const isOwner = authenticated && user?.id === loan.owner_user_id;
   const tl = timeLeft(loan.auction_deadline);
   const rate = loan.best_rate ?? loan.interest_rate;
+  const displayCreditScore = loan.credit_score ?? creditScoreFromLegacyScore(loan);
+  const displayGrade = displayCreditScore.grade;
 
   function share() {
     const url = window.location.href;
@@ -165,48 +169,54 @@ function DetailView({ loan }: { loan: LoanDetailT }) {
             title="OpenLoan Score"
             action={
               <span className="inline-flex items-center gap-1.5 text-xs text-ink-muted">
-                <Gauge className="h-3.5 w-3.5" /> Grade {loan.score.grade}
+                <Gauge className="h-3.5 w-3.5" /> Grade {displayGrade}
               </span>
             }
           >
             <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
               <div className="flex flex-col items-center gap-2">
-                <ScoreGauge score={loan.score.score} grade={loan.score.grade} />
+                <ScoreGauge score={Math.round(displayCreditScore.total_score)} grade={displayGrade} />
                 <span className="text-xs font-medium text-ink-muted">
-                  {GRADE_META[loan.score.grade].label}
+                  {GRADE_META[displayGrade].label}
                 </span>
               </div>
-              <div className="flex-1 space-y-3.5">
-                {loan.score.factors.map((f) => (
-                  <div key={f.key}>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-ink-soft" title={f.description}>
-                        {f.label}
-                      </span>
-                      <span className="font-mono text-xs text-ink-muted nums">
-                        {f.score} · {Math.round(f.weight * 100)}%
-                      </span>
-                    </div>
-                    <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-paper-deep">
-                      <div
-                        className="h-full rounded-full"
-                        style={{
-                          width: `${f.score}%`,
-                          backgroundColor: GRADE_META[loan.score.grade].color,
-                        }}
-                      />
-                    </div>
-                  </div>
-                ))}
+              <div className="flex-1">
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <ScoreSubtotal label="Total" value={displayCreditScore.total_score} suffix="/100" />
+                  <ScoreSubtotal
+                    label="Borrower"
+                    value={displayCreditScore.borrower_score}
+                    suffix="/45 pts"
+                  />
+                  <ScoreSubtotal
+                    label="Transaction"
+                    value={displayCreditScore.transaction_score}
+                    suffix="/55 pts"
+                  />
+                </div>
+                {displayCreditScore.showstopper && (
+                  <p className="mt-4 flex items-start gap-2 rounded-lg border border-brand/30 bg-brand-tint px-3 py-2 text-xs text-brand-700">
+                    <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                    <span>
+                      <span className="font-semibold">Manual review / blocked:</span>{" "}
+                      {displayCreditScore.showstopper}
+                    </span>
+                  </p>
+                )}
               </div>
             </div>
-            <p className="mt-5 rounded-lg border border-gold/40 bg-gold-tint px-3 py-2 text-xs text-ink-soft">
-              Illustrative score. The production engine combines CDI banking & accounting data,
-              CargoX trade documents and repayment history.{" "}
-              <Link to="/cdi" className="font-semibold text-brand link-underline">
-                Learn how it works
-              </Link>
-            </p>
+            <div className="mt-6 space-y-5">
+              <ScoreComponentGroup
+                title="Borrower score"
+                components={displayCreditScore.borrower_components}
+                grade={displayGrade}
+              />
+              <ScoreComponentGroup
+                title="Transaction score"
+                components={displayCreditScore.transaction_components}
+                grade={displayGrade}
+              />
+            </div>
           </Card>
 
           {/* Documents */}
@@ -271,7 +281,7 @@ function DetailView({ loan }: { loan: LoanDetailT }) {
         <div className="space-y-6 lg:sticky lg:top-24 lg:self-start">
           <div className="overflow-hidden rounded-2xl border border-line bg-card shadow-card">
             <div className="flex items-center justify-between border-b border-line bg-paper-dim px-5 py-4">
-              <GradeBadge grade={loan.risk_grade} size="lg" />
+              <GradeBadge grade={displayGrade} size="lg" />
               <div className="text-right">
                 <p className="text-[0.62rem] uppercase tracking-widest2 text-ink-muted">
                   {loan.best_rate ? "Best offer" : "Target rate"}
@@ -329,6 +339,85 @@ function DetailView({ loan }: { loan: LoanDetailT }) {
 }
 
 /* ── Sub-components ─────────────────────────────────────────────────────── */
+
+function ScoreSubtotal({
+  label,
+  value,
+  suffix,
+}: {
+  label: string;
+  value: number;
+  suffix: string;
+}) {
+  return (
+    <div className="rounded-lg border border-line bg-paper-dim px-3 py-2">
+      <p className="text-[0.62rem] uppercase tracking-widest2 text-ink-muted">{label}</p>
+      <p className="mt-1 font-mono text-sm font-semibold text-ink nums">
+        {formatScoreNumber(value)} <span className="text-xs text-ink-muted">{suffix}</span>
+      </p>
+    </div>
+  );
+}
+
+function ScoreComponentGroup({
+  title,
+  components,
+  grade,
+}: {
+  title: string;
+  components: ScoreComponent[];
+  grade: NonNullable<CreditScore["grade"]>;
+}) {
+  return (
+    <div>
+      <h3 className="mb-3 text-sm font-semibold text-ink">{title}</h3>
+      {components.length === 0 ? (
+        <p className="rounded-lg border border-dashed border-line-strong bg-paper-dim px-4 py-4 text-sm text-ink-muted">
+          Score components unavailable.
+        </p>
+      ) : (
+        <div className="space-y-3.5">
+          {components.map((component) => (
+            <div key={component.key}>
+              <div className="flex items-start justify-between gap-3 text-sm">
+                <span className="text-ink-soft">{component.label}</span>
+                <span className="shrink-0 font-mono text-xs text-ink-muted nums">
+                  {formatScoreNumber(component.raw_score_0_100)}/100 ·{" "}
+                  {formatScoreNumber(component.weighted_points)} / {component.weight_percent} pts
+                </span>
+              </div>
+              <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-paper-deep">
+                <div
+                  className="h-full rounded-full"
+                  style={{
+                    width: `${Math.max(0, Math.min(100, component.raw_score_0_100))}%`,
+                    backgroundColor: GRADE_META[grade].color,
+                  }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function creditScoreFromLegacyScore(loan: LoanDetailT): CreditScore {
+  return {
+    total_score: loan.score.score,
+    grade: loan.score.grade,
+    borrower_score: 0,
+    transaction_score: 0,
+    showstopper: null,
+    borrower_components: [],
+    transaction_components: [],
+  };
+}
+
+function formatScoreNumber(value: number): string {
+  return Number.isInteger(value) ? value.toString() : value.toFixed(2);
+}
 
 function ActionArea({
   loan,
