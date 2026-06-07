@@ -5,14 +5,14 @@ so the app looks alive on first run. Runs only when the loans table is empty.
 """
 
 import logging
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from decimal import Decimal
 
 from src.db.crud.bid import create_bid
 from src.db.crud.company import create_company
 from src.db.crud.loan import count_loans, create_loan
 from src.db.database import AsyncSessionLocal
-from src.services.scoring import compute_score
+from src.services.loan_scoring import loan_application_from_create_payload, score_loan_application
 
 logger = logging.getLogger(__name__)
 
@@ -214,19 +214,16 @@ async def seed_demo_data() -> None:
                 company = await create_company(db, owner_user_id=f"seed-user-{i}", **c)
                 companies.append(company)
 
-            now = datetime.now(timezone.utc)
+            now = datetime.now(UTC)
             created_loans = []
             for idx, (ci, deal, status) in enumerate(_DEALS):
                 company = companies[ci]
-                result = compute_score(
+                application_input = loan_application_from_create_payload(
+                    deal,
                     company_name=company.name,
-                    title=deal["title"],
-                    amount=deal["amount"],
-                    term_days=deal["term_days"],
-                    interest_rate=deal["interest_rate"],
-                    industry=deal["industry"],
-                    documents=3,
+                    company_industry=company.industry,
                 )
+                scoring_input, credit_score = await score_loan_application(application_input)
                 deadline = now + timedelta(days=7 + (idx * 3))
                 funded_amount = deal["amount"] if status in ("funded", "repaid") else Decimal("0")
                 loan = await create_loan(
@@ -234,8 +231,10 @@ async def seed_demo_data() -> None:
                     company_id=company.id,
                     owner_user_id=company.owner_user_id,
                     status=status,
-                    risk_score=result.score,
-                    risk_grade=result.grade,
+                    risk_score=round(credit_score.total_score),
+                    risk_grade=credit_score.grade,
+                    credit_score=credit_score.model_dump(mode="json"),
+                    loan_scoring_input=scoring_input.model_dump(mode="json"),
                     auction_deadline=deadline,
                     funded_amount=funded_amount,
                     currency="HKD",

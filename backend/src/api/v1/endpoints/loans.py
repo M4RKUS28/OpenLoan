@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.api.v1.schemas.bid import BidCreateRequest, BidListResponse, BidResponse
 from src.api.v1.schemas.company import CompanySummary
 from src.api.v1.schemas.loan import (
+    CreditScoreResponse,
     DocumentResponse,
     IndustryListResponse,
     LoanCreateRequest,
@@ -68,23 +69,50 @@ def _build_summary(loan: Loan) -> LoanSummary:
     )
 
 
-def _build_detail(loan: Loan, documents: list[tuple]) -> LoanDetail:
-    summary = _build_summary(loan)
-    result = score_breakdown(loan, len(loan.documents))
-    score = ScoreResponse(
-        score=result.score,
-        grade=result.grade,
+def _score_response_from_credit_score(credit_score: CreditScoreResponse) -> ScoreResponse:
+    components = [*credit_score.borrower_components, *credit_score.transaction_components]
+    return ScoreResponse(
+        score=round(credit_score.total_score),
+        grade=credit_score.grade,
         factors=[
             ScoreFactorResponse(
-                key=f.key,
-                label=f.label,
-                description=f.description,
-                score=f.score,
-                weight=f.weight,
+                key=component.key,
+                label=component.label,
+                description=(
+                    f"{component.raw_score_0_100}/100 · "
+                    f"{component.weighted_points} / {component.weight_percent} pts"
+                ),
+                score=round(component.raw_score_0_100),
+                weight=component.weight_percent / 100,
             )
-            for f in result.factors
+            for component in components
         ],
     )
+
+
+def _build_detail(loan: Loan, documents: list[tuple]) -> LoanDetail:
+    summary = _build_summary(loan)
+    credit_score = (
+        CreditScoreResponse.model_validate(loan.credit_score) if loan.credit_score else None
+    )
+    if credit_score:
+        score = _score_response_from_credit_score(credit_score)
+    else:
+        result = score_breakdown(loan, len(loan.documents))
+        score = ScoreResponse(
+            score=result.score,
+            grade=result.grade,
+            factors=[
+                ScoreFactorResponse(
+                    key=f.key,
+                    label=f.label,
+                    description=f.description,
+                    score=f.score,
+                    weight=f.weight,
+                )
+                for f in result.factors
+            ],
+        )
     docs = [
         DocumentResponse(
             id=f.id,
@@ -105,6 +133,8 @@ def _build_detail(loan: Loan, documents: list[tuple]) -> LoanDetail:
         owner_user_id=loan.owner_user_id,
         updated_at=loan.updated_at,
         score=score,
+        credit_score=credit_score,
+        loan_scoring_input=loan.loan_scoring_input,
         documents=docs,
         bids=[BidResponse.model_validate(b) for b in loan.bids],
     )

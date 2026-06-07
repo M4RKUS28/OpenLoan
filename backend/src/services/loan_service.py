@@ -1,6 +1,6 @@
 import uuid
 from collections.abc import Sequence
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -15,6 +15,7 @@ from src.db.crud.loan import (
 )
 from src.db.models.loan import Loan
 from src.services.company_service import get_my_company
+from src.services.loan_scoring import loan_application_from_create_payload, score_loan_application
 from src.services.scoring import ScoreResult, compute_score
 
 
@@ -40,7 +41,14 @@ async def create_loan_request(db: AsyncSession, user_id: str, data: dict) -> Loa
     if not company:
         raise AppError(400, "Create a company profile before submitting a deal")
 
-    deadline = data.get("auction_deadline") or datetime.now(timezone.utc) + timedelta(days=14)
+    deadline = data.get("auction_deadline") or datetime.now(UTC) + timedelta(days=14)
+    application_input = loan_application_from_create_payload(
+        data,
+        company_name=company.name,
+        company_industry=company.industry,
+    )
+    scoring_input, credit_score = await score_loan_application(application_input)
+    credit_score_payload = credit_score.model_dump(mode="json")
 
     loan = await create_loan(
         db,
@@ -60,11 +68,11 @@ async def create_loan_request(db: AsyncSession, user_id: str, data: dict) -> Loa
         interest_rate=data.get("interest_rate", 8.0),
         auction_deadline=deadline,
         status="pending_approval",
+        risk_score=round(credit_score.total_score),
+        risk_grade=credit_score.grade,
+        credit_score=credit_score_payload,
+        loan_scoring_input=scoring_input.model_dump(mode="json"),
     )
-
-    # Compute the placeholder OpenLoan Score at submission time.
-    result = _score_for_loan(loan, documents=0)
-    await update_loan(db, loan, risk_score=result.score, risk_grade=result.grade)
     return loan
 
 
@@ -94,16 +102,24 @@ async def approve_loan(db: AsyncSession, loan_id: uuid.UUID, user: TokenData) ->
     loan = await get_loan_or_404(db, loan_id)
     if not (user.has_role("admin") or loan.owner_user_id == user.user_id):
         raise ForbiddenError()
-    documents = len(loan.documents)
-    result = _score_for_loan(loan, documents=documents)
-    deadline = loan.auction_deadline or datetime.now(timezone.utc) + timedelta(days=14)
+    deadline = loan.auction_deadline or datetime.now(UTC) + timedelta(days=14)
+    score_changes = {}
+    if loan.credit_score:
+        score_changes = {
+            "risk_score": round(float(loan.credit_score["total_score"])),
+            "risk_grade": loan.credit_score.get("grade"),
+        }
+    else:
+        documents = len(loan.documents)
+        result = _score_for_loan(loan, documents=documents)
+        score_changes = {"risk_score": result.score, "risk_grade": result.grade}
+
     return await update_loan(
         db,
         loan,
         status="open",
-        risk_score=result.score,
-        risk_grade=result.grade,
         auction_deadline=deadline,
+        **score_changes,
     )
 
 

@@ -1,4 +1,9 @@
 import axios from "axios";
+import type {
+  LoanApplicationInput,
+  LoanScoringInput,
+  ScoreComponent,
+} from "@/loan-scoring-demo/types";
 import { getOptionalToken } from "./auth";
 
 export const api = axios.create({
@@ -112,6 +117,16 @@ export interface ScoreBreakdown {
   factors: ScoreFactor[];
 }
 
+export interface CreditScore {
+  total_score: number;
+  grade: RiskGrade;
+  borrower_score: number;
+  transaction_score: number;
+  showstopper: string | null;
+  borrower_components: ScoreComponent[];
+  transaction_components: ScoreComponent[];
+}
+
 export interface LoanDocument {
   id: string;
   filename: string;
@@ -141,6 +156,8 @@ export interface LoanDetail extends LoanSummary {
   owner_user_id: string;
   updated_at: string;
   score: ScoreBreakdown;
+  credit_score?: CreditScore | null;
+  loan_scoring_input?: LoanScoringInput | null;
   documents: LoanDocument[];
   bids: Bid[];
 }
@@ -163,6 +180,21 @@ export interface LoanCreate {
   currency?: string;
   term_days: number;
   interest_rate: number;
+  borrower_id?: string;
+  loan_amount_hkd?: number;
+  loan_duration_days?: number;
+  purchase_order_value_hkd?: number;
+  invoice_value_hkd?: number;
+  supplier_name?: string;
+  supplier_country?: string;
+  product_type?: string;
+  goods_description?: string;
+  quantity?: number;
+  expected_delivery_days?: number;
+  expected_repayment_source?: LoanApplicationInput["expected_repayment_source"];
+  collateral?: LoanApplicationInput["collateral"];
+  sales_context?: LoanApplicationInput["sales_context"];
+  demo_scenario?: LoanApplicationInput["demo_scenario"];
 }
 
 export interface MarketplaceFilters {

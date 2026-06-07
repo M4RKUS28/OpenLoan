@@ -50,6 +50,27 @@ services:
     environment:
       MINIO_BUCKET: ${MINIO_BUCKET}
 
+  # ── Mock CDI API ─────────────────────────────────────────────────────────────
+  mock-cdi-api:
+    build:
+      context: ./MOCK-CDI-API
+    restart: unless-stopped
+    environment:
+      PORT: ${MOCK_CDI_PORT:-8000}
+    expose:
+      - "${MOCK_CDI_PORT:-8000}"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:${MOCK_CDI_PORT:-8000}/health').read()",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   # ── Keycloak ─────────────────────────────────────────────────────────────────
   keycloak:
     image: quay.io/keycloak/keycloak:24.0
@@ -103,12 +124,17 @@ services:
       SECRET_KEY: ${SECRET_KEY}
       LOG_LEVEL: ${LOG_LEVEL}
       CORS_ORIGINS: ${CORS_ORIGINS}
+      MOCK_CDI_HOST: ${MOCK_CDI_HOST:-mock-cdi-api}
+      MOCK_CDI_PORT: ${MOCK_CDI_PORT:-8000}
+      MOCK_CDI_BASE_URL: ${MOCK_CDI_BASE_URL:-http://mock-cdi-api:8000}
     depends_on:
       postgres:
         condition: service_healthy
       minio:
         condition: service_healthy
       keycloak:
+        condition: service_healthy
+      mock-cdi-api:
         condition: service_healthy
 
   # ── Frontend ──────────────────────────────────────────────────────────────────
