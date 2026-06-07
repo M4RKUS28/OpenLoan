@@ -127,6 +127,17 @@ If older callers omit scoring fields, the backend fills deterministic demo defau
 
 ## Frontend Integration
 
+Informational scoring/CDI tab:
+
+```text
+frontend/src/pages/CDI.tsx
+```
+
+The existing "Scoring & CDI" UI tab now explains the backend-owned scoring model, the
+borrower/transaction component weights, mock CDI enrichment, showstopper logic, and
+creation-time storage/display flow. It is static informational UI and does not call the scoring
+service or the mock CDI API.
+
 Creation page:
 
 ```text

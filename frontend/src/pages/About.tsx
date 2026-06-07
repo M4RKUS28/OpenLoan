@@ -12,7 +12,7 @@ const VALUES = [
   {
     icon: Compass,
     title: "Our approach",
-    body: "Finance individual deals, not whole companies. Tie capital directly to real economic activity, priced by an open market.",
+    body: "Finance individual loans, not whole companies. Tie capital directly to real economic activity, priced by an open market.",
   },
   {
     icon: Globe2,
@@ -22,14 +22,14 @@ const VALUES = [
 ];
 
 const TEAM = [
-  { name: "Daniel Cheung", role: "Product & Trade Finance", initials: "DC" },
-  { name: "Mei Lin Wong", role: "Engineering", initials: "MW" },
-  { name: "Ravi Patel", role: "Risk & Data", initials: "RP" },
-  { name: "Sofia Alvarez", role: "Design", initials: "SA" },
+  { name: "Markus Huber", role: "AI/ML Engineer", initials: "MH" },
+  { name: "Matthias Meierlohr", role: "Product & Trade Finance", initials: "MM" },
+  { name: "Jonas Hörter", role: "Engineering", initials: "JH" },
+  { name: "Lukas Pendi", role: "Product & Trade Finance", initials: "LP" },
 ];
 
 const ROADMAP = [
-  { phase: "Now", title: "Hackathon MVP", body: "Marketplace, deal creation, OpenLoan Score and an auction for bids.", done: true },
+  { phase: "Now", title: "Hackathon MVP", body: "Marketplace, loan requests, OpenLoan Score and an auction for bids.", done: true },
   { phase: "Next", title: "Live CDI & CargoX integration", body: "Real consent-based data feeds powering the scoring engine." },
   { phase: "Then", title: "Settlement & repayment rails", body: "End-to-end financing flow with payments and automated repayment." },
   { phase: "Later", title: "Scale beyond Hong Kong", body: "Expand across the Greater Bay Area and into new trade corridors." },
@@ -44,11 +44,11 @@ export function AboutPage() {
             <Flag className="h-3.5 w-3.5" /> About OpenLoan
           </span>
           <h1 className="mx-auto mt-6 max-w-2xl font-display text-4xl font-semibold leading-tight tracking-tightish text-balance sm:text-5xl">
-            A world where every trade deal can be financed
+            A world where every trade can be financed
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg text-paper/70">
             Today, a single bank often decides whether a business can grow. We believe capital
-            should flow more efficiently — so we built an open market for trade finance.
+            should flow more efficiently — so we built an open market for trade-finance loans.
           </p>
         </div>
       </section>
@@ -85,12 +85,12 @@ export function AboutPage() {
           <div>
             <span className="eyebrow text-brand">The opportunity</span>
             <h2 className="mt-3 font-display text-3xl font-semibold tracking-tightish">
-              An asset class opened to more investors
+              An asset class opened to more lenders
             </h2>
             <p className="mt-5 leading-relaxed text-ink-soft">
-              Meanwhile, investors hunt for attractive, short-duration credit but rarely access
-              individual trade deals. OpenLoan connects both sides — banks, funds, family offices
-              and qualified individuals — around real, scored deals.
+              Meanwhile, lenders hunt for attractive, short-duration credit but rarely access
+              individual trade-finance loans. OpenLoan connects both sides — banks, funds, family offices
+              and qualified individuals — around real, scored loans.
             </p>
           </div>
         </div>
@@ -153,11 +153,11 @@ export function AboutPage() {
       <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6">
         <div className="relative overflow-hidden rounded-3xl bg-harbor-deep px-8 py-14 text-center text-paper grain-overlay">
           <h2 className="relative font-display text-3xl font-semibold tracking-tightish">
-            Join the open trade finance market
+            Join the open trade-finance loan market
           </h2>
           <div className="relative mt-7 flex flex-wrap justify-center gap-3">
             <Link to="/marketplace" className={cn(buttonVariants({ variant: "light", size: "lg" }))}>
-              Explore deals <ArrowRight className="h-4 w-4" />
+              Explore loans <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               to="/mcp"

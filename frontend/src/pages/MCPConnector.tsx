@@ -5,30 +5,30 @@ import { cn } from "@/lib/utils";
 const TOOLS = [
   {
     icon: Search,
-    name: "search_deals",
+    name: "search_loans",
     desc: "Query the live marketplace by industry, risk grade, rate, amount and deadline.",
   },
   {
     icon: Wallet,
-    name: "get_deal",
-    desc: "Fetch a single deal with its OpenLoan Score breakdown, terms and open offers.",
+    name: "get_loan",
+    desc: "Fetch a single loan with its OpenLoan Score breakdown, terms and open offers.",
   },
   {
     icon: ShieldCheck,
     name: "get_score",
-    desc: "Return the explainable risk assessment and contributing factors for a deal.",
+    desc: "Return the explainable risk assessment and contributing factors for a loan.",
   },
   {
     icon: Sparkles,
     name: "summarise_portfolio",
-    desc: "Summarise an investor's bids, exposure and returns across the marketplace.",
+    desc: "Summarise a lender's bids, exposure and returns across the marketplace.",
   },
 ];
 
 const USE_CASES = [
-  "An investor's AI assistant scans new deals each morning and flags A/B-grade opportunities.",
+  "A lender's AI assistant scans new loans each morning and flags A/B-grade opportunities.",
   "A risk analyst asks an agent to compare OpenLoan Scores across an industry.",
-  "A business co-pilot drafts a financing request from shipping documents.",
+  "A business co-pilot drafts a loan request from shipping documents.",
 ];
 
 const CONFIG = `{
@@ -36,7 +36,7 @@ const CONFIG = `{
     "openloan": {
       "url": "https://api.openloan.example/mcp",
       "transport": "http",
-      "description": "Open marketplace for trade finance"
+      "description": "Open marketplace for trade-finance loans"
     }
   }
 }`;
@@ -54,7 +54,7 @@ export function MCPConnectorPage() {
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg text-paper/70">
             Connect AI agents directly to the marketplace through the Model Context Protocol — so
-            assistants can search deals, read OpenLoan Scores and analyse portfolios.
+            assistants can search loans, read OpenLoan Scores and analyse portfolios.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a
@@ -86,7 +86,7 @@ export function MCPConnectorPage() {
               call well-defined tools.
             </p>
             <p className="mt-4 leading-relaxed text-ink-soft">
-              OpenLoan exposes its marketplace as an MCP server — turning live trade-finance data
+              OpenLoan exposes its marketplace as an MCP server — turning live trade-finance loan data
               into capabilities any compatible agent can use, safely and with permission.
             </p>
           </div>
