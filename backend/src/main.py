@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.config.settings import settings
 from src.core.exceptions import AppError, app_error_handler
 from src.api.v1.router import api_router
+from src.api.mcp import router as mcp_router
 from src.db.minio import ensure_bucket_exists
 from src.services.seed import seed_demo_data
 
@@ -23,6 +24,7 @@ app.add_middleware(
 
 app.add_exception_handler(AppError, app_error_handler)
 app.include_router(api_router)
+app.include_router(mcp_router)  # MCP Streamable HTTP endpoint at /mcp
 
 
 @app.on_event("startup")

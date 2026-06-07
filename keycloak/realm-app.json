@@ -26,15 +26,17 @@
       "directAccessGrantsEnabled": true,
       "redirectUris": [
         "http://localhost/*",
-        "http://localhost:5173/*"
+        "http://localhost:5173/*",
+        "https://openloan.m4rkus28.de/*"
       ],
       "webOrigins": [
         "http://localhost",
-        "http://localhost:5173"
+        "http://localhost:5173",
+        "https://openloan.m4rkus28.de"
       ],
       "attributes": {
         "pkce.code.challenge.method": "S256",
-        "post.logout.redirect.uris": "http://localhost/*##http://localhost:5173/*"
+        "post.logout.redirect.uris": "http://localhost/*##http://localhost:5173/*##https://openloan.m4rkus28.de/*"
       },
       "protocolMappers": [
         {
