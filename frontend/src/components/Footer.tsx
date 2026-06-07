@@ -6,9 +6,9 @@ const COLUMNS = [
   {
     title: "Marketplace",
     links: [
-      { label: "Browse deals", to: "/marketplace" },
-      { label: "Post a deal", to: "/deals/new" },
-      { label: "Investor dashboard", to: "/dashboard" },
+      { label: "Browse loans", to: "/marketplace" },
+      { label: "Request a loan", to: "/deals/new" },
+      { label: "Lender dashboard", to: "/dashboard" },
     ],
   },
   {
@@ -22,8 +22,7 @@ const COLUMNS = [
 ];
 
 const EXTERNAL = [
-  { label: "HKMA CDI — About", href: "https://cdi.hkma.gov.hk/about-cdi/" },
-  { label: "Commercial Data Interchange", href: "https://cdi.hkma.gov.hk/" },
+  { label: "About CDI (HKMA)", href: "https://cdi.hkma.gov.hk/" },
 ];
 
 export function Footer() {
@@ -34,8 +33,8 @@ export function Footer() {
           <div className="max-w-xs">
             <Logo tone="paper" />
             <p className="mt-5 text-sm leading-relaxed text-paper/65">
-              An open marketplace for trade finance — connecting Hong Kong's businesses with
-              capital, deal by deal.
+              An open marketplace for trade-finance loans — connecting Hong Kong's businesses with
+              lenders, loan by loan.
             </p>
             <p className="mt-5 text-[0.7rem] font-semibold uppercase tracking-widest2 text-gold-light">
               Greater Bay Area · Hong Kong SAR

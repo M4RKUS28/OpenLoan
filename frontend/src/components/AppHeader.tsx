@@ -16,7 +16,7 @@ const NAV = [
 function ModeSwitch({ compact = false }: { compact?: boolean }) {
   const { mode, setMode } = useAccountMode();
   const options: { key: "lender" | "business"; label: string; icon: typeof TrendingUp }[] = [
-    { key: "lender", label: "Invest", icon: TrendingUp },
+    { key: "lender", label: "Lend", icon: TrendingUp },
     { key: "business", label: "Borrow", icon: Briefcase },
   ];
   return (
@@ -82,11 +82,11 @@ function UserMenu() {
             </MenuLink>
             {isBusiness ? (
               <MenuLink to="/deals/new" icon={Briefcase} onClick={() => setOpen(false)}>
-                Post a deal
+                Request a loan
               </MenuLink>
             ) : (
               <MenuLink to="/marketplace" icon={TrendingUp} onClick={() => setOpen(false)}>
-                Browse deals
+                Browse loans
               </MenuLink>
             )}
             <div className="my-1 h-px bg-line" />

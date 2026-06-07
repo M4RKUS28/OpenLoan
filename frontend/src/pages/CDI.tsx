@@ -35,7 +35,7 @@ const STEPS = [
   {
     icon: Gauge,
     title: "Feeds the OpenLoan Score",
-    body: "These verified signals — combined with CargoX trade documents — drive an explainable A–E score on every deal.",
+    body: "These verified signals — combined with CargoX trade documents — drive an explainable A–E score on every loan.",
   },
 ];
 
@@ -64,23 +64,12 @@ export function CDIPage() {
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a
-              href="https://cdi.hkma.gov.hk/about-cdi/"
+              href="https://cdi.hkma.gov.hk/"
               target="_blank"
               rel="noreferrer"
               className={cn(buttonVariants({ variant: "light" }))}
             >
               About CDI (HKMA) <ArrowUpRight className="h-4 w-4" />
-            </a>
-            <a
-              href="https://cdi.hkma.gov.hk/"
-              target="_blank"
-              rel="noreferrer"
-              className={cn(
-                buttonVariants(),
-                "border border-paper/20 bg-transparent text-paper hover:bg-paper/10 hover:shadow-none",
-              )}
-            >
-              cdi.hkma.gov.hk <ArrowUpRight className="h-4 w-4" />
             </a>
           </div>
         </div>
@@ -101,7 +90,7 @@ export function CDIPage() {
               verified data directly from source providers to financial institutions.
             </p>
             <p className="mt-4 leading-relaxed text-ink-soft">
-              For OpenLoan, that means we can assess a deal's risk from trustworthy, standardised
+              For OpenLoan, that means we can assess a loan's risk from trustworthy, standardised
               data — opening trade finance to SMEs that banks have historically overlooked.
             </p>
           </div>
@@ -156,7 +145,7 @@ export function CDIPage() {
             <p className="mt-3 leading-relaxed text-ink-soft">
               Alongside CDI, OpenLoan ingests logistics and trade-document signals from CargoX —
               electronic Bills of Lading, shipping records and delivery histories — to verify that
-              a deal reflects real economic activity.
+              a loan reflects real economic activity.
             </p>
             <ul className="mt-5 space-y-2.5">
               {["Electronic Bills of Lading", "Shipment & delivery history", "Trade document verification"].map(
@@ -201,9 +190,9 @@ export function CDIPage() {
         <div className="flex flex-col items-center justify-between gap-6 rounded-3xl border border-line bg-card p-10 text-center shadow-card sm:flex-row sm:text-left">
           <div>
             <h2 className="font-display text-2xl font-semibold tracking-tightish">
-              See the score on real deals
+              See the score on real loans
             </h2>
-            <p className="mt-2 text-ink-soft">Every deal on the marketplace carries a OpenLoan Score.</p>
+            <p className="mt-2 text-ink-soft">Every loan on the marketplace carries an OpenLoan Score.</p>
           </div>
           <Link to="/marketplace" className={cn(buttonVariants({ size: "lg" }), "shrink-0")}>
             Explore the marketplace <ArrowRight className="h-4 w-4" />

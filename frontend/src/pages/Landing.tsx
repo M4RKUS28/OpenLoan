@@ -74,11 +74,11 @@ function Hero({ deals }: { deals: DealLite[] }) {
           </span>
           <h1 className="mt-6 max-w-xl font-display text-4xl font-semibold leading-[1.05] tracking-tightish text-balance animate-fade-up sm:text-6xl">
             An open marketplace for{" "}
-            <span className="text-gold-light">trade finance</span>.
+            <span className="text-gold-light">trade-finance loans</span>.
           </h1>
           <p className="mt-6 max-w-lg text-lg leading-relaxed text-paper/75 animate-fade-up delay-1">
-            Instead of one bank deciding, capital providers compete to fund real trade
-            deals. OpenLoan connects Hong Kong's businesses with investors — deal by deal.
+            Instead of one bank deciding, lenders compete to fund real trade
+            loans. OpenLoan connects Hong Kong's businesses with lenders — loan by loan.
           </p>
           <div className="mt-9 flex flex-wrap items-center gap-3 animate-fade-up delay-2">
             <Link to="/marketplace" className={cn(buttonVariants({ variant: "light", size: "lg" }))}>
@@ -91,12 +91,12 @@ function Hero({ deals }: { deals: DealLite[] }) {
                 "border border-paper/25 bg-paper/5 text-paper backdrop-blur-sm hover:bg-paper/10 hover:shadow-none",
               )}
             >
-              Post a deal
+              Request a loan
             </Link>
           </div>
           <dl className="mt-12 grid max-w-lg grid-cols-3 gap-6 border-t border-paper/10 pt-7 animate-fade-up delay-3">
             {[
-              { v: "HK$50K–10M+", l: "Deal sizes" },
+              { v: "HK$50K–10M+", l: "Loan sizes" },
               { v: "A–E", l: "OpenLoan Score" },
               { v: "Open", l: "Auction pricing" },
             ].map((s) => (
@@ -126,7 +126,7 @@ function HeroDealCard({ deals }: { deals: DealLite[] }) {
       <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-harbor-glow/30 blur-3xl" />
       <div className="relative rounded-2xl border border-paper/15 bg-harbor-950/45 p-6 shadow-harbor backdrop-blur-xl">
         <div className="flex items-center justify-between">
-          <span className="eyebrow text-paper/55">Live deal</span>
+          <span className="eyebrow text-paper/55">Live loan</span>
           <span className="grid h-10 w-10 place-items-center rounded-lg bg-jade font-display text-lg font-semibold text-paper">
             A
           </span>
@@ -229,18 +229,18 @@ function HowItWorks() {
       icon: Building2,
       steps: [
         { t: "Create your company profile", d: "Add your trading business and connect data via HKMA's CDI." },
-        { t: "Publish a trade deal", d: "Describe the goods, amount and term. We compute an OpenLoan Score." },
-        { t: "Compare competing offers", d: "Investors bid to fund your deal — you pick the best rate." },
+        { t: "Request a loan", d: "Describe the goods, amount and term. We compute an OpenLoan Score." },
+        { t: "Compare competing offers", d: "Lenders bid to fund your loan — you pick the best rate." },
         { t: "Get funded, repay on close", d: "Capital is released; you repay once the trade settles." },
       ],
     },
     lender: {
       icon: Wallet,
       steps: [
-        { t: "Browse real trade deals", d: "Filter by risk grade, industry, rate and deadline." },
-        { t: "Assess transparent risk", d: "Every deal carries an OpenLoan Score with an explainable breakdown." },
-        { t: "Bid your rate", d: "Compete in an open auction to win attractive deals." },
-        { t: "Build a portfolio", d: "Track funded deals and returns from your dashboard." },
+        { t: "Browse real trade-finance loans", d: "Filter by risk grade, industry, rate and deadline." },
+        { t: "Assess transparent risk", d: "Every loan carries an OpenLoan Score with an explainable breakdown." },
+        { t: "Bid your rate", d: "Compete in an open auction to fund attractive loans." },
+        { t: "Build a portfolio", d: "Track funded loans and returns from your dashboard." },
       ],
     },
   }[tab];
@@ -262,7 +262,7 @@ function HowItWorks() {
                 tab === k ? "bg-ink text-paper shadow-card" : "text-ink-muted hover:text-ink",
               )}
             >
-              {k === "business" ? "For businesses" : "For investors"}
+              {k === "business" ? "For businesses" : "For lenders"}
             </button>
           ))}
         </div>
@@ -305,9 +305,9 @@ function ScoringSection() {
             Transparent risk, graded A to E
           </h2>
           <p className="mt-5 max-w-md text-base leading-relaxed text-ink-soft">
-            Every deal is scored from real signals — banking and accounting data shared
+            Every loan is scored from real signals — banking and accounting data shared
             via HKMA's CDI, trade documents from CargoX, repayment history and more. The
-            score is explainable, so investors see exactly what drives it.
+            score is explainable, so lenders see exactly what drives it.
           </p>
           <Link
             to="/cdi"
@@ -420,13 +420,13 @@ function AuctionSection() {
             The market sets the rate
           </h2>
           <p className="mt-5 max-w-md text-base leading-relaxed text-ink-soft">
-            Businesses publish a deal; investors place competing offers. Lower rates rise to
+            Businesses request a loan; lenders place competing offers. Lower rates rise to
             the top, and the business chooses the offer that fits. Pricing is discovered by
             the market — not dictated by a single lender.
           </p>
           <ul className="mt-6 space-y-3">
             {[
-              "Investors bid their rate and amount",
+              "Lenders bid their rate and amount",
               "Best offers surface automatically",
               "The business accepts a winning bid",
             ].map((t) => (
@@ -451,7 +451,7 @@ function TradeBand() {
     { v: "US$2.5T+", l: "Global trade finance gap" },
     { v: "98%", l: "of HK businesses are SMEs" },
     { v: "5 signals", l: "behind every score" },
-    { v: "1 market", l: "open to all qualified investors" },
+    { v: "1 market", l: "open to all qualified lenders" },
   ];
   return (
     <section className="photo-band text-paper">
@@ -479,7 +479,7 @@ function TradeBand() {
           <p className="mt-4 max-w-xl text-paper/75">
             From Kwai Tsing's container terminals to the Pearl River Delta, OpenLoan links
             the region's importers and exporters with the capital that keeps goods moving —
-            one verified deal at a time.
+            one verified loan at a time.
           </p>
         </div>
         <dl className="mt-12 grid grid-cols-2 gap-8 border-t border-paper/15 pt-10 lg:grid-cols-4">
@@ -499,24 +499,24 @@ function TradeBand() {
 
 const FAQS = [
   {
-    q: "Who can raise capital on OpenLoan?",
+    q: "Who can borrow on OpenLoan?",
     a: "Any legitimate trading business — importers, exporters, wholesalers, distributors and e-commerce merchants. The platform is designed especially for small and medium enterprises that struggle to access traditional trade finance.",
   },
   {
-    q: "Who can invest?",
-    a: "Banks, private credit funds, family offices, institutional investors and qualified individuals. OpenLoan opens an asset class that has historically been reserved for institutions.",
+    q: "Who can lend?",
+    a: "Banks, private credit funds, family offices, institutional lenders and qualified individuals. OpenLoan opens an asset class that has historically been reserved for institutions.",
   },
   {
     q: "What exactly gets financed?",
-    a: "Individual trade deals, not the company as a whole. A business publishes a specific deal — for example HK$850,000 to import electronics from Shenzhen — and that deal is funded.",
+    a: "Individual trade-finance loans, not the company as a whole. A business requests a specific loan — for example HK$850,000 to import electronics from Shenzhen — and that loan is funded.",
   },
   {
     q: "How is risk assessed?",
-    a: "Each deal receives an OpenLoan Score (A–E) built from company data, trade activity, repayment history and document verification — drawing on HKMA's CDI and CargoX. The score is transparent and explainable.",
+    a: "Each loan receives an OpenLoan Score (A–E) built from company data, trade activity, repayment history and document verification — drawing on HKMA's CDI and CargoX. The score is transparent and explainable.",
   },
   {
     q: "Is this a live financial product?",
-    a: "No. This is a hackathon demo that showcases an open marketplace for trade finance. Figures and scores are illustrative.",
+    a: "No. This is a hackathon demo that showcases an open marketplace for trade-finance loans. Figures and scores are illustrative.",
   },
 ];
 
@@ -572,14 +572,14 @@ function FinalCta() {
           aria-hidden
         />
         <h2 className="relative mx-auto max-w-2xl font-display text-3xl font-semibold tracking-tightish text-balance sm:text-4xl">
-          Every legitimate trade deal deserves to be financed
+          Every legitimate trade deserves to be financed
         </h2>
         <p className="relative mx-auto mt-4 max-w-lg text-paper/75">
-          Join the open marketplace for trade finance in Hong Kong and the Greater Bay Area.
+          Join the open marketplace for trade-finance loans in Hong Kong and the Greater Bay Area.
         </p>
         <div className="relative mt-9 flex flex-wrap items-center justify-center gap-3">
           <Link to="/marketplace" className={cn(buttonVariants({ variant: "light", size: "lg" }))}>
-            Explore deals <ArrowUpRight className="h-4 w-4" />
+            Explore loans <ArrowUpRight className="h-4 w-4" />
           </Link>
           <Link
             to="/deals/new"
@@ -588,7 +588,7 @@ function FinalCta() {
               "border border-paper/25 bg-paper/5 text-paper backdrop-blur-sm hover:bg-paper/10 hover:shadow-none",
             )}
           >
-            Post your first deal
+            Request your first loan
           </Link>
         </div>
       </div>

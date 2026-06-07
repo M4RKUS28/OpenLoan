@@ -52,8 +52,8 @@ export function LoanDetailPage() {
   if (!loan) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-24 text-center">
-        <h1 className="font-display text-2xl font-semibold">Deal not found</h1>
-        <p className="mt-2 text-ink-muted">This deal may have been removed or never existed.</p>
+        <h1 className="font-display text-2xl font-semibold">Loan not found</h1>
+        <p className="mt-2 text-ink-muted">This loan may have been removed or never existed.</p>
         <Link to="/marketplace" className="mt-6 inline-block">
           <Button variant="outline">Back to marketplace</Button>
         </Link>
@@ -130,7 +130,7 @@ function DetailView({ loan }: { loan: LoanDetailT }) {
         {/* Main */}
         <div className="space-y-6">
           {loan.description && (
-            <Card title="Deal overview">
+            <Card title="Loan overview">
               <p className="whitespace-pre-line leading-relaxed text-ink-soft">{loan.description}</p>
               {loan.purpose && (
                 <p className="mt-4 rounded-lg border border-line bg-paper-dim px-4 py-3 text-sm text-ink-soft">
@@ -213,7 +213,7 @@ function DetailView({ loan }: { loan: LoanDetailT }) {
           <Card title="Documents" action={<span className="text-xs text-ink-muted">{loan.documents.length} files</span>}>
             {loan.documents.length === 0 ? (
               <p className="rounded-lg border border-dashed border-line-strong bg-paper-dim px-4 py-6 text-center text-sm text-ink-muted">
-                No documents attached to this deal.
+                No documents attached to this loan.
               </p>
             ) : (
               <ul className="divide-y divide-line">
@@ -354,17 +354,17 @@ function ActionArea({
       return (
         <div className="space-y-2">
           <Button className="w-full" onClick={onApprove} disabled={approving}>
-            {approving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Publish deal to market"}
+            {approving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Publish loan to market"}
           </Button>
           <p className="text-center text-xs text-ink-muted">
-            You own this deal. Publishing opens it for investor bids.
+            You own this loan. Publishing opens it for lender bids.
           </p>
         </div>
       );
     }
     return (
       <p className="rounded-xl border border-line bg-paper-dim px-4 py-3 text-center text-sm text-ink-soft">
-        You own this deal — review and accept offers below.
+        You own this loan — review and accept offers below.
       </p>
     );
   }
@@ -380,7 +380,7 @@ function ActionArea({
   if (!authenticated) {
     return (
       <Button className="w-full" onClick={onLogin}>
-        Sign in to fund this deal
+        Sign in to fund this loan
       </Button>
     );
   }
@@ -388,14 +388,14 @@ function ActionArea({
   if (isLender) {
     return (
       <Button className="w-full" onClick={onFund}>
-        <Gavel className="h-4 w-4" /> Fund this deal
+        <Gavel className="h-4 w-4" /> Fund this loan
       </Button>
     );
   }
 
   return (
     <p className="rounded-xl border border-line bg-paper-dim px-4 py-3 text-center text-sm text-ink-soft">
-      Switch to <span className="font-semibold text-ink">Invest</span> mode to fund this deal.
+      Switch to <span className="font-semibold text-ink">Lend</span> mode to fund this loan.
     </p>
   );
 }
@@ -420,7 +420,7 @@ function OffersCard({
       </div>
       {loan.bids.length === 0 ? (
         <p className="rounded-lg border border-dashed border-line-strong bg-paper-dim px-4 py-6 text-center text-sm text-ink-muted">
-          No offers yet. Be the first to fund this deal.
+          No offers yet. Be the first to fund this loan.
         </p>
       ) : (
         <ul className="space-y-2">

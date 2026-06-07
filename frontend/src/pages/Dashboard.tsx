@@ -23,8 +23,8 @@ export function DashboardPage() {
             </h1>
             <p className="mt-3 text-ink-soft">
               {isLender
-                ? "Your investment portfolio across the marketplace."
-                : "Your trade deals and their funding status."}
+                ? "Your lending portfolio across the marketplace."
+                : "Your loans and their funding status."}
             </p>
           </div>
           <div className="inline-flex rounded-full border border-line-strong bg-paper-dim p-1">
@@ -36,7 +36,7 @@ export function DashboardPage() {
                   mode === k ? "bg-ink text-paper shadow-card" : "text-ink-muted hover:text-ink"
                 }`}
               >
-                {k === "lender" ? "Investor" : "Business"}
+                {k === "lender" ? "Lender" : "Business"}
               </button>
             ))}
           </div>
@@ -66,19 +66,19 @@ function LenderView() {
         stats={[
           { label: "Capital committed", value: formatCurrency(committed, "HKD", true), icon: Wallet },
           { label: "Active offers", value: String(active.length), icon: TrendingUp },
-          { label: "Deals won", value: String(accepted.length), icon: Briefcase },
+          { label: "Loans won", value: String(accepted.length), icon: Briefcase },
           { label: "Avg. rate", value: avgRate ? formatPercent(avgRate) : "—", icon: TrendingUp },
         ]}
       />
 
-      <SectionHeader title="Your offers" cta={{ to: "/marketplace", label: "Find deals" }} />
+      <SectionHeader title="Your offers" cta={{ to: "/marketplace", label: "Find loans" }} />
       {isLoading ? (
         <Skeleton />
       ) : (bids?.length ?? 0) === 0 ? (
         <Empty
           title="No offers yet"
-          body="Browse the marketplace and bid on trade deals to build your portfolio."
-          cta={{ to: "/marketplace", label: "Explore deals" }}
+          body="Browse the marketplace and bid on loans to build your portfolio."
+          cta={{ to: "/marketplace", label: "Explore loans" }}
         />
       ) : (
         <Table>
@@ -141,14 +141,14 @@ function BusinessView() {
         ]}
       />
 
-      <SectionHeader title="Your deals" cta={{ to: "/deals/new", label: "Post a deal", primary: true }} />
+      <SectionHeader title="Your loans" cta={{ to: "/deals/new", label: "Request a loan", primary: true }} />
       {isLoading ? (
         <Skeleton />
       ) : (loans?.length ?? 0) === 0 ? (
         <Empty
-          title="No deals yet"
-          body="Post your first trade deal to start receiving competing offers from investors."
-          cta={{ to: "/deals/new", label: "Post a deal" }}
+          title="No loans yet"
+          body="Request your first loan to start receiving competing offers from lenders."
+          cta={{ to: "/deals/new", label: "Request a loan" }}
         />
       ) : (
         <Table>
