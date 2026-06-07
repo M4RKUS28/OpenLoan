@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Briefcase, Plus, Search, SlidersHorizontal } from "lucide-react";
+import { Briefcase, FlaskConical, Plus, Search, SlidersHorizontal } from "lucide-react";
 import { useMarketplace, useMyLoans, useIndustries } from "@/hooks/useLoans";
 import { useAuth } from "@/hooks/useAuth";
 import { useAccountMode } from "@/context/AccountMode";
@@ -88,6 +88,19 @@ export function MarketplacePage() {
       </section>
 
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+        {/* Hackathon demo notice */}
+        <div className="mb-8 flex items-start gap-3 rounded-2xl border border-amber-300/70 bg-amber-50 px-4 py-3.5 text-amber-900">
+          <FlaskConical className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" />
+          <div className="text-sm">
+            <p className="font-semibold">Hackathon demo</p>
+            <p className="mt-0.5 text-amber-800">
+              This is a hackathon prototype. All loans, companies and credit scores shown here are
+              sample data for demonstration only — nothing on this marketplace is a real financial
+              offer.
+            </p>
+          </div>
+        </div>
+
         {/* Your deals (business mode) */}
         {isBusiness && authenticated && (myLoans?.length ?? 0) > 0 && (
           <div className="mb-10">
